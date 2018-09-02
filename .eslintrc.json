@@ -1,0 +1,31 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+
+  "globals": {
+    "expect": true,
+    "chai": true,
+    "supertest": true,
+    "api": true,
+    "mongoose": true,
+    "config": true,
+    "connection": true
+  },
+
+  "rules": {
+    "no-underscore-dangle": "off",
+    "import/prefer-default-export": "off",
+    "no-await-in-loop": "off",
+    "no-param-reassign": "off"
+  },
+
+  "parser": "babel-eslint"
+}

@@ -1,3 +1,5 @@
 node_modules
 dist
 .idea
+mochawesome-report
+package-lock.json

@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+import UsersController from '../controllers/users';
+import * as validators from '../validators';
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const router = express.Router();
+
+router.post('/signup', validators.auth.signup, UsersController.signup);
 
 module.exports = router;
