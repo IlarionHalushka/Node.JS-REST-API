@@ -1,7 +1,7 @@
-import { User } from '../../models';
+import { User } from '../../../../models/index';
 
 describe('Signup', () => {
-  const userSignupRoute = '/api/v1/users/signup';
+  const userSignupRoute = '/api/v1/auth/signUp';
 
   const userCreds = {
     email: 'email@email.com',
@@ -19,7 +19,7 @@ describe('Signup', () => {
     await User.remove({});
   });
 
-  it('should return 201 when signing up a new user', async () => {
+  it('should return 201 when signIng up a new user', async () => {
     const res = await api
       .post(userSignupRoute)
       .send(userCreds)

@@ -4,8 +4,10 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
+import rateLimit from 'express-rate-limit';
+
 import swaggerDocument from './swagger.json';
-import usersRouter from './routes/users';
+import authRouter from './routes/auth';
 
 const app = express();
 
@@ -40,7 +42,12 @@ app.use((req, res, next) => {
 
 // main routers
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api/v1/users', usersRouter);
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use('/api/v1/auth', limiter, authRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

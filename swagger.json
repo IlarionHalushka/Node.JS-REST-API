@@ -32,12 +32,16 @@
     "application/json"
   ],
   "paths": {
-    "/users/signup": {
+
+
+
+    "/users/signUp": {
       "post": {
         "tags": [
-          "Users"
+          "Auth"
         ],
         "description": "Create new user in system",
+        "summary": "Sign up user with firstName,lastName, email, password and confirmation",
         "parameters": [
           {
             "name": "user",
@@ -52,15 +56,64 @@
           "application/json"
         ],
         "responses": {
-          "200": {
-            "description": "New user is created successfully.",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+          "201": {
+            "description": "New user is created successfully."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Conflict"
           }
         }
       }
     },
+
+
+
+
+    "/users/signIn": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Sign in",
+        "summary": "Sign in user with email and password",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Sign in a new user",
+            "schema": {
+              "$ref": "#/definitions/UserSignIn"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Auth successful"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
+
+
+
+
+
+
+
+
     "/users/{userId}": {
       "parameters": [
         {
@@ -125,6 +178,12 @@
       }
     }
   },
+
+
+
+
+
+
   "definitions": {
     "User": {
       "required": [
@@ -157,6 +216,22 @@
     "Users": {
       "type": "array",
       "$ref": "#/definitions/User"
+    },
+    "UserSignIn": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "string@string.com",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
     }
   }
 }
