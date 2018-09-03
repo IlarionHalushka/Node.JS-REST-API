@@ -12,11 +12,11 @@ describe('Signup', () => {
   };
 
   before(async () => {
-    await User.remove({});
+    await User.deleteMany({});
   });
 
   afterEach(async () => {
-    await User.remove({});
+    await User.deleteMany({});
   });
 
   it('should return 201 when signIng up a new user', async () => {
@@ -25,10 +25,17 @@ describe('Signup', () => {
       .send(userCreds)
       .expect(201);
 
+    // check response from server
     expect(res.body.message).to.equal('New user is created successfully.');
 
-    const usersCountInDB = await User.find().count();
-    expect(usersCountInDB).to.equal(1);
+    // check data in DB
+    const usersInDB = await User.find();
+    expect(usersInDB[0].email).to.equal(userCreds.email);
+    expect(usersInDB[0].lastName).to.equal(userCreds.lastName);
+    expect(usersInDB[0].firstName).to.equal(userCreds.firstName);
+    expect(usersInDB[0].password).to.be.a('string');
+    expect(usersInDB[0].role).to.equal('USER');
+    expect(usersInDB.length).to.equal(1);
   });
 
   it('should return 409 when registering user with existing email', async () => {
@@ -41,7 +48,7 @@ describe('Signup', () => {
 
     expect(res.body.message).to.equal('Email is already registered.');
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(1);
   });
 
@@ -57,7 +64,7 @@ describe('Signup', () => {
       '"email" must be a valid email',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -77,7 +84,7 @@ describe('Signup', () => {
       '"passwordConfirmation" must match password',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -93,7 +100,7 @@ describe('Signup', () => {
       '"password" is not allowed to be empty',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -109,7 +116,7 @@ describe('Signup', () => {
       '"email" is not allowed to be empty',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -125,7 +132,7 @@ describe('Signup', () => {
       '"firstName" is not allowed to be empty',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -141,7 +148,7 @@ describe('Signup', () => {
       '"lastName" is not allowed to be empty',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -160,7 +167,7 @@ describe('Signup', () => {
       '"passwordConfirmation" must match password',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
@@ -180,11 +187,11 @@ describe('Signup', () => {
       '"password" length must be at least 6 characters long',
     );
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
-  it('should return 400 when no email field', async () => {
+  it('should return 400 when no "email" field', async () => {
     const userCredsNoEmail = { ...userCreds };
     delete userCredsNoEmail.email;
 
@@ -195,11 +202,11 @@ describe('Signup', () => {
 
     expect(res.body.message[0].message).to.equal('"email" is required');
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 
-  it('should return 400 when no password field', async () => {
+  it('should return 400 when no "password" field', async () => {
     const userCredsNoPassword = { ...userCreds };
     delete userCredsNoPassword.password;
 
@@ -210,7 +217,7 @@ describe('Signup', () => {
 
     expect(res.body.message[0].message).to.equal('"password" is required');
 
-    const usersCountInDB = await User.find().count();
+    const usersCountInDB = await User.find().countDocuments();
     expect(usersCountInDB).to.equal(0);
   });
 });

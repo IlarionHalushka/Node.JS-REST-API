@@ -12,6 +12,6 @@ export const connection = mongoose.connect(
   },
 );
 
-// export { default as Category } from './Category';
-// export { default as Activity } from './Activity';
 export { default as User } from './User';
+export { default as Product } from './Product';
+export { default as Category } from './Category';

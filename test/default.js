@@ -4,6 +4,8 @@ global.expect = require('chai').expect;
 global.api = require('supertest')('http://localhost:3000');
 global.mongoose = require('mongoose');
 global.config = require('./../config/enviroment');
+global.routes = require('./common/routes');
+global.testHelpers = require('./common/testHelpers');
 
 process.env.NODE_ENV = 'development';
 

@@ -8,6 +8,7 @@ import rateLimit from 'express-rate-limit';
 
 import swaggerDocument from './swagger.json';
 import authRouter from './routes/auth';
+import categoriesRouter from './routes/categories';
 
 const app = express();
 
@@ -48,6 +49,7 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
 });
 app.use('/api/v1/auth', limiter, authRouter);
+app.use('/api/v1/categories', categoriesRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

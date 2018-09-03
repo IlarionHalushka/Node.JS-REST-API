@@ -1,7 +1,7 @@
 import { User } from '../../../../models/index';
 
 describe('Signin', () => {
-  const userSigninRoute = '/api/v1/auth/signIn';
+  const userSignInRoute = routes.auth.signIn;
 
   const userCredsSignin = {
     email: 'email@email.com',
@@ -26,7 +26,7 @@ describe('Signin', () => {
 
   it('should return 201 when signIng up', async () => {
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSignin)
       .expect(200);
 
@@ -42,7 +42,7 @@ describe('Signin', () => {
     };
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninWrongPassword)
       .expect(401);
 
@@ -57,7 +57,7 @@ describe('Signin', () => {
     };
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninWrongPassword)
       .expect(401);
 
@@ -69,7 +69,7 @@ describe('Signin', () => {
     const userCredsSigninEmptyPassword = { ...userCredsSignin, password: '' };
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninEmptyPassword)
       .expect(400);
 
@@ -83,7 +83,7 @@ describe('Signin', () => {
     const userCredsSigninEmptyEmail = { ...userCredsSignin, email: '' };
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninEmptyEmail)
       .expect(400);
 
@@ -100,7 +100,7 @@ describe('Signin', () => {
     };
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninEnvalidEmail)
       .expect(400);
 
@@ -115,7 +115,7 @@ describe('Signin', () => {
     delete userCredsSigninNoEmailField.email;
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninNoEmailField)
       .expect(400);
 
@@ -128,7 +128,7 @@ describe('Signin', () => {
     delete userCredsSigninNoPasswordField.password;
 
     const res = await api
-      .post(userSigninRoute)
+      .post(userSignInRoute)
       .send(userCredsSigninNoPasswordField)
       .expect(400);
 

@@ -19,6 +19,10 @@
     {
       "name": "Users",
       "description": "API for users' management"
+    },
+    {
+      "name": "Categories",
+      "description": "API for categories' management"
     }
   ],
   "schemes": [
@@ -105,6 +109,48 @@
         }
       }
     },
+
+
+
+
+
+    "/categories": {
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Create a new category for products",
+        "summary": "Create category with name, photos, active fields",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "body",
+            "description": "Create a new category of products",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Category is created"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+
+
+
+
 
 
 
@@ -230,6 +276,29 @@
         },
         "password": {
           "type": "string"
+        }
+      }
+    },
+    "Category": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Electronics",
+          "uniqueItems": true
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "base64 encoded picture string",
+            "format": "base64"
+          }
+        },
+        "active": {
+          "type": "boolean"
         }
       }
     }

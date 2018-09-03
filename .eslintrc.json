@@ -17,7 +17,9 @@
     "api": true,
     "mongoose": true,
     "config": true,
-    "connection": true
+    "connection": true,
+    "routes": true,
+    "testHelpers": true
   },
 
   "rules": {
