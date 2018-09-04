@@ -11,7 +11,7 @@ describe('Signup', () => {
     passwordConfirmation: 'password123',
   };
 
-  before(async () => {
+  beforeEach(async () => {
     await User.deleteMany({});
   });
 

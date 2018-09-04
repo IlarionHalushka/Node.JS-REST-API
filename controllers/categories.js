@@ -2,6 +2,40 @@ import mongoose from 'mongoose';
 
 import { Category } from '../models';
 
+const publicFields = {
+  name: true,
+  photos: true,
+  active: true,
+};
+
+exports.get = async (req, res) => {
+  const databaseQuery = {};
+
+  if (!req.query.includeInactive) {
+    databaseQuery.active = true;
+  }
+
+  if (req.query.name) {
+    databaseQuery.name = RegExp(`${req.query.name}`, 'i');
+  }
+
+  const categories = await Category.find(databaseQuery, publicFields);
+
+  res.status(200).json({
+    data: categories,
+  });
+};
+
+exports.show = async (req, res) => {
+  const databaseQuery = { _id: req.params.id };
+
+  const categories = await Category.find(databaseQuery, publicFields);
+
+  res.status(200).json({
+    data: categories,
+  });
+};
+
 exports.create = async (req, res) => {
   // check for already registered category name
   await Category.find({ name: req.body.name })

@@ -1,3 +1,7 @@
---recursive
+--recursively
 --reporter mochawesome
 --timeout 10000
+--compilers js:babel-core/register
+--require babel-polyfill test/default.js
+--recursive ./test/api
+--exit

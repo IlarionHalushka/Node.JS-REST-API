@@ -20,4 +20,6 @@ const CategorySchema = new mongoose.Schema(
   },
 );
 
+export const publicFields = ['name', 'photos', 'active'];
+
 export default mongoose.model('Category', CategorySchema);
