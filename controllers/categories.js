@@ -75,3 +75,21 @@ exports.create = async (req, res) => {
       });
     });
 };
+
+exports.delete = async (req, res) => {
+  if (req.params.id) {
+    const databaseQuery = { _id: req.params.id };
+
+    const categories = await Category.deleteOne(databaseQuery)
+      .exec()
+      .catch(error => res.status(400).json(error));
+
+    res.status(200).json({
+      data: categories,
+    });
+  } else {
+    res.status(400).json({
+      message: 'Category was not found.',
+    });
+  }
+};

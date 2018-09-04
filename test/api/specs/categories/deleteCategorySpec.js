@@ -1,7 +1,7 @@
 import { User, Category } from '../../../../models';
 import photos from '../../../common/data/photos';
 
-xdescribe('Category deleting', () => {
+describe('Category deleting', () => {
   let authToken;
   const categoriesRoute = routes.categories;
 
@@ -55,18 +55,19 @@ xdescribe('Category deleting', () => {
     await api
       .delete(`${categoriesRoute}/${categoryIdToDelete}`)
       .set({ Authorization: authToken })
-      .expect(200);
+      .expect(401);
 
     // check data in DB and compare with response data
     const categoriesInDBAfterDeleting = await Category.find({
       _id: categoryIdToDelete,
     });
-    expect(categoriesInDBAfterDeleting.length).to.equal(0);
+    expect(categoriesInDBAfterDeleting.length).to.equal(1);
   });
 
   it('should return 200 when deleting categories with ADMIN role', async () => {
     const userCredsAdminRole = { ...userCreds, role: 'ADMIN' };
 
+    await User.deleteMany();
     await User(userCredsAdminRole).save();
     await testHelpers.authorization.signIn({
       email: userCredsAdminRole.email,

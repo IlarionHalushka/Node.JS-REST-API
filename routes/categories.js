@@ -15,4 +15,10 @@ router.post(
   categoriesController.create,
 );
 
+router.delete(
+  '/:id',
+  authController.requireAdminLogin(),
+  categoriesController.delete,
+);
+
 module.exports = router;
