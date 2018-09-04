@@ -1,10 +1,10 @@
 import express from 'express';
-import AuthController from '../controllers/auth';
+import { authController } from '../controllers';
 import * as validators from '../validators';
 
 const router = express.Router();
 
-router.post('/signUp', validators.auth.signUp, AuthController.signUp);
-router.post('/signIn', validators.auth.signIn, AuthController.signIn);
+router.post('/signUp', validators.auth.signUp, authController.signUp);
+router.post('/signIn', validators.auth.signIn, authController.signIn);
 
 module.exports = router;

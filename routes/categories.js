@@ -1,9 +1,14 @@
 import express from 'express';
-import CategoriesController from '../controllers/categories';
+import { authController, categoriesController } from '../controllers';
 import * as validators from '../validators';
 
 const router = express.Router();
 
-router.post('/', validators.categories.create, CategoriesController.create);
+router.post(
+  '/',
+  authController.requireAdminLogin(),
+  validators.categories.create,
+  categoriesController.create,
+);
 
 module.exports = router;

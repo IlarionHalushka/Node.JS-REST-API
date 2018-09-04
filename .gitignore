@@ -1,5 +1,6 @@
 node_modules
 dist
 .idea
+.vscode
 mochawesome-report
 package-lock.json

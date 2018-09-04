@@ -98,9 +98,9 @@ exports.signIn = async (req, res) => {
 const getLoggedInUser = async req => {
   const { authorization: token } = req.headers;
 
-  const { userId } = await utils.getTokenClaim(token, config.secret);
+  const { userId } = await utils.getTokenClaim(token, process.env.JWT_KEY);
 
-  const user = await User.find({ _id: userId });
+  const user = await User.findOne({ _id: userId });
 
   if (!user) {
     const error = new Error('ERR_NOT_LOGGED_IN');
@@ -132,6 +132,8 @@ exports.requireLogin = () => async (req, res, next) => {
 
 exports.requireAdminLogin = () => async (req, res, next) => {
   let user;
+
+  console.log(user, 'require ADMIN LOGIN');
 
   try {
     user = await getLoggedInUser(req);

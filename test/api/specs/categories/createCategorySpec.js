@@ -180,7 +180,4 @@ describe('Category creation', () => {
     const categoriesCountInDB = await Category.find().countDocuments();
     expect(categoriesCountInDB).to.equal(0);
   });
-
-  // TODO: write a test to access the category creation without jwt token
-  // write a test to access the category creation with USER role
 });
