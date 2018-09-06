@@ -8,7 +8,7 @@ const categorySchema = Joi.object().keys({
 });
 
 const updateCategorySchema = Joi.object().keys({
-  name: Joi.string(),
+  name: Joi.string().allow(''),
   photos: Joi.array(),
   active: Joi.boolean(),
 });

@@ -19,7 +19,8 @@ app.set('view engine', 'jade');
 // set up logger
 app.use(
   logger(
-    ':date[web] :method :url :status :res[content-length] - :response-time ms',
+    //  ':date[web] :method :url :status :res[content-length] - :response-time ms',
+    'dev',
   ),
 );
 

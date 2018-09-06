@@ -1,9 +1,10 @@
 import { User, Category } from '../../../../models';
 import photos from '../../../common/data/photos';
 
-xdescribe('Category editing', () => {
+describe('Category editing', () => {
   let authToken;
   const categoriesRoute = routes.categories;
+  let categoryIdToUpdate;
 
   const categoryDataOnePhotoActive = {
     name: 'Electronics',
@@ -36,7 +37,10 @@ xdescribe('Category editing', () => {
   });
 
   beforeEach(async () => {
-    await Category(categoryDataOnePhotoActive).save();
+    categoryIdToUpdate = await Category(categoryDataOnePhotoActive)
+      .save()
+      .then(data => data._id);
+    console.log(categoryIdToUpdate, 'TO UPDATE');
   });
 
   afterEach(async () => {
@@ -55,7 +59,7 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataTwoPictures)
       .expect(200);
@@ -82,7 +86,7 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataZeroPictures)
       .expect(200);
@@ -109,23 +113,20 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataEmptyName)
-      .expect(200);
+      .expect(200)
+      .catch(err => console.error(err));
 
     // check response from server
     expect(res.body.message).to.equal('Category has been updated.');
 
     // check data in DB
-    const categoriesInDB = await Category.find({
-      name: categoryDataEmptyName.name,
-    });
-    expect(categoriesInDB.length).to.equal(1);
-    expect(categoriesInDB[0].photos).to.deep.equal(
-      categoryDataEmptyName.photos,
-    );
-    expect(categoriesInDB[0].active).to.equal(categoryDataEmptyName.active);
+    const categoryInDB = await Category.findById(categoryIdToUpdate);
+    expect(categoryInDB.photos).to.deep.equal(categoryDataEmptyName.photos);
+    expect(categoryInDB.active).to.equal(categoryDataEmptyName.active);
+    expect(categoryInDB.name).to.equal(categoryDataOnePhotoActive.name);
   });
 
   it('should return 200 when updating category with 1 photos, name, no field active', async () => {
@@ -135,7 +136,7 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataNoActiveField)
       .expect(200);
@@ -151,7 +152,9 @@ xdescribe('Category editing', () => {
     expect(categoriesInDB[0].photos).to.deep.equal(
       categoryDataNoActiveField.photos,
     );
-    expect(categoriesInDB[0].active).to.equal(categoryDataNoActiveField.active);
+    expect(categoriesInDB[0].active).to.equal(
+      categoryDataOnePhotoActive.active,
+    );
   });
 
   it('should return 200 when updating category with 1 photos, active, no field name', async () => {
@@ -161,7 +164,7 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataNoNameField)
       .expect(200);
@@ -187,7 +190,7 @@ xdescribe('Category editing', () => {
     };
 
     const res = await api
-      .patch(categoriesRoute)
+      .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
       .set({ Authorization: authToken })
       .send(categoryDataNoPhotosField)
       .expect(200);
@@ -201,7 +204,7 @@ xdescribe('Category editing', () => {
     });
     expect(categoriesInDB.length).to.equal(1);
     expect(categoriesInDB[0].photos).to.deep.equal(
-      categoryDataNoPhotosField.photos,
+      categoryDataOnePhotoActive.photos,
     );
     expect(categoriesInDB[0].active).to.equal(categoryDataNoPhotosField.active);
   });

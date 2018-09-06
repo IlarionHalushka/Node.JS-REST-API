@@ -15,6 +15,8 @@ router.post(
   categoriesController.create,
 );
 
+router.patch('/:id', validators.categories.update, categoriesController.update);
+
 router.delete(
   '/:id',
   authController.requireAdminLogin(),

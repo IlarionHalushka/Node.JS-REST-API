@@ -39,7 +39,7 @@
 
 
 
-    "/users/signUp": {
+    "/auth/signUp": {
       "post": {
         "tags": [
           "Auth"
@@ -76,7 +76,7 @@
 
 
 
-    "/users/signIn": {
+    "/auth/signIn": {
       "post": {
         "tags": [
           "Auth"

@@ -93,3 +93,26 @@ exports.delete = async (req, res) => {
     });
   }
 };
+
+exports.update = async (req, res) => {
+  const category = await Category.findById(req.params.id);
+
+  if (!category) {
+    res.status(404).json({
+      message: "Category with given id wasn't found.",
+    });
+  }
+
+  if (req.body.name === '') {
+    delete req.body.name;
+  }
+
+  await Category.findByIdAndUpdate(req.params.id, { $set: req.body });
+
+  const responseData = await Category.findById(req.params.id, publicFields);
+
+  res.status(200).json({
+    message: 'Category has been updated.',
+    data: responseData,
+  });
+};

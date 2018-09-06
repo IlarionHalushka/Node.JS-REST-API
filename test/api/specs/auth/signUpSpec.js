@@ -12,11 +12,12 @@ describe('Signup', () => {
   };
 
   beforeEach(async () => {
-    await User.deleteMany({});
+    await User.deleteMany();
+    await User.deleteMany();
   });
 
   afterEach(async () => {
-    await User.deleteMany({});
+    await User.deleteMany();
   });
 
   it('should return 201 when signIng up a new user', async () => {
