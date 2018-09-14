@@ -7,3 +7,4 @@ package-lock.json
 .history
 coverage
 .nyc
+.nyc_output
