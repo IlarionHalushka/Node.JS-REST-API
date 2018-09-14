@@ -26,7 +26,7 @@ params.forEach(param => {
       await Category.deleteMany();
       await User.deleteMany();
 
-      // login user with role ADMIN and get jwt token
+      // login user with role param.role and get jwt token
       authToken = await testHelpers.authorization.login(param.role);
     });
 
@@ -52,20 +52,12 @@ params.forEach(param => {
         .expect(200);
 
       expect(res.body.data.length).to.equal(2);
-      expect(res.body.data[0].name).to.equal(categoryDataOnePhotoActive.name);
-      expect(res.body.data[0].photos).to.deep.equal(
-        categoryDataOnePhotoActive.photos,
-      );
-      expect(res.body.data[0].active).to.equal(
-        categoryDataOnePhotoActive.active,
-      );
-      expect(res.body.data[1].name).to.equal(categoryDataOnePhotoActive.name);
-      expect(res.body.data[1].photos).to.deep.equal(
-        categoryDataOnePhotoActive.photos,
-      );
-      expect(res.body.data[1].active).to.equal(
-        categoryDataOnePhotoActive.active,
-      );
+
+      res.body.data.forEach(data => {
+        expect(data.name).to.equal(categoryDataOnePhotoActive.name);
+        expect(data.photos).to.deep.equal(categoryDataOnePhotoActive.photos);
+        expect(data.active).to.equal(categoryDataOnePhotoActive.active);
+      });
     });
 
     it('should return 200 when fetching category by id', async () => {
@@ -77,14 +69,11 @@ params.forEach(param => {
         .set({ Authorization: authToken })
         .expect(200);
 
-      expect(res.body.data.length).to.equal(1);
-      expect(res.body.data[0].name).to.equal(categoryDataOnePhotoActive.name);
-      expect(res.body.data[0].photos).to.deep.equal(
+      expect(res.body.data.name).to.equal(categoryDataOnePhotoActive.name);
+      expect(res.body.data.photos).to.deep.equal(
         categoryDataOnePhotoActive.photos,
       );
-      expect(res.body.data[0].active).to.equal(
-        categoryDataOnePhotoActive.active,
-      );
+      expect(res.body.data.active).to.equal(categoryDataOnePhotoActive.active);
     });
 
     it('should return 200 when fetching includeInactive=true categories', async () => {

@@ -28,13 +28,19 @@ const APIHelpers = {
     };
 
     // create User in DB with role 'userRoleToAuthorize'
-    await new User(userCreds).save();
+    const userDocumentSavedInDB = await User(userCreds).save();
 
     // Log in user and save session in globals.userAgentApi
     const responseLogin = await api
       .post(routes.auth.login)
       .send({ email: userCreds.email, password: userCreds.password })
       .catch(err => console.error(err));
+
+    // save user is session
+    const userSession = {};
+    userSession._id = userDocumentSavedInDB._id;
+    userSession.token = responseLogin.body.token;
+    testHelpers.session.setCurrentUser(userSession);
 
     return responseLogin.body.token;
   },

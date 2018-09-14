@@ -9,11 +9,7 @@ exports.signUp = async (req, res) => {
   // check for already registered email
   const isUserExists = await User.find({ email: req.body.email })
     .countDocuments()
-    .catch(errFinding => {
-      res.status(500).json({
-        error: errFinding,
-      });
-    });
+    .catch(errFinding => res.status(500).json({ error: errFinding }));
 
   if (isUserExists) {
     return res.status(409).json({
@@ -38,11 +34,7 @@ exports.signUp = async (req, res) => {
         message: 'New user is created successfully.',
       }),
     )
-    .catch(errSaving => {
-      res.status(500).json({
-        error: errSaving,
-      });
-    });
+    .catch(errSaving => res.status(500).json({ error: errSaving }));
 };
 
 exports.signIn = async (req, res) => {
@@ -57,11 +49,7 @@ exports.signIn = async (req, res) => {
       }
       return user;
     })
-    .catch(err => {
-      res.status(500).json({
-        error: err,
-      });
-    });
+    .catch(errFinding => res.status(500).json({ error: errFinding }));
 
   // if user was found in DB check password hashes and return response
   bcrypt.compare(req.body.password, userFromDB[0].password, (err, result) => {

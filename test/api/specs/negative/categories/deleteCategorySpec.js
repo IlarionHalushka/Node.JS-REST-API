@@ -34,6 +34,6 @@ describe('Negative: Category deleting', () => {
     await api
       .delete(`${categoriesRoute}/${categoryId}`)
       .set({ Authorization: authToken })
-      .expect(400);
+      .expect(500);
   });
 });

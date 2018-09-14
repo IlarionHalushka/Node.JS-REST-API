@@ -104,7 +104,7 @@ describe('Smoke: Category editing', () => {
       expect(res.body.message).to.equal(param.responseMsg);
 
       // if field 'active', 'photos', 'name' is undefined in param.categoryDataToEdit
-      // then the field should not be changed in DB and assign initial value to it
+      // then the field should not be changed in DB so assign initial value to it
       if (param.categoryDataToEdit.photos === undefined) {
         param.categoryDataToEdit.photos = categoryDataOnePhotoActive.photos;
       }
@@ -118,12 +118,13 @@ describe('Smoke: Category editing', () => {
         param.categoryDataToEdit.name = categoryDataOnePhotoActive.name;
       }
 
-      // check data in DB was edited
+      // check that data in DB was edited
       const editedCategoryInDB = await Category.find({
         _id: categoryIdToUpdate,
       });
 
       expect(editedCategoryInDB.length).to.equal(1);
+
       expect(editedCategoryInDB[0].photos).to.deep.equal(
         param.categoryDataToEdit.photos,
       );

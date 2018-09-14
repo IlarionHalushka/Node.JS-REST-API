@@ -3,20 +3,19 @@ import mongoose from 'mongoose';
 const CategorySchema = new mongoose.Schema(
   {
     name: {
-      $type: String,
+      type: String,
       required: true,
     },
     photos: {
-      $type: Array,
+      type: Array,
       default: [],
     },
     active: {
-      $type: Boolean,
+      type: Boolean,
       default: true,
     },
   },
   {
-    typeKey: '$type',
     timestamps: {
       createdAt: true,
       updatedAt: true,
@@ -24,6 +23,12 @@ const CategorySchema = new mongoose.Schema(
   },
 );
 
-export const publicFields = ['name', 'photos', 'active'];
+export const publicFields = [
+  'name',
+  'photos',
+  'active',
+  'createdAt',
+  'updatedAt',
+];
 
 export default mongoose.model('Category', CategorySchema);

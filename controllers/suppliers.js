@@ -1,17 +1,10 @@
 import mongoose from 'mongoose';
 
-import { Category } from '../models';
+import { Supplier } from '../models';
 import { escapeRegexSpecialChars } from '../utils';
 
 exports.get = async (req, res) => {
   const databaseQuery = {};
-
-  if (
-    req.query.includeInactive === undefined ||
-    req.query.includeInactive === 'false'
-  ) {
-    databaseQuery.active = true;
-  }
 
   if (req.query.name) {
     escapeRegexSpecialChars(req.query.name);
@@ -19,52 +12,43 @@ exports.get = async (req, res) => {
     databaseQuery.name = new RegExp(`${req.query.name}`, 'i');
   }
 
-  const categories = await Category.find(
+  const suppliers = await Supplier.find(
     databaseQuery,
-    Category.publicFields,
+    Supplier.publicFields,
   ).catch(errFinding => res.status(500).json({ error: errFinding }));
 
   return res.status(200).json({
-    data: categories,
-  });
-};
-
-exports.show = async (req, res) => {
-  const databaseQuery = { _id: req.params.id };
-
-  const category = await Category.findOne(databaseQuery, Category.publicFields);
-
-  return res.status(200).json({
-    data: category,
+    data: suppliers,
   });
 };
 
 exports.create = async (req, res) => {
-  // check for already registered category name
-  const isCategoryExists = await Category.find({ name: req.body.name })
+  // check for already registered supplier name
+  const isSupplierExists = await Supplier.find({ name: req.body.name })
     .countDocuments()
     .catch(errFinding => res.status(500).json({ error: errFinding }));
 
-  if (isCategoryExists) {
+  if (isSupplierExists) {
     return res.status(409).json({
-      message: 'Category is already created.',
+      message: 'Supplier is already created.',
     });
   }
 
-  // create new category
-  const categoryToCreate = new Category({
+  // create new supplier
+  const supplierToCreate = new Supplier({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
+    description: req.body.description,
     photos: req.body.photos,
-    active: req.body.active,
+    createdBy: req.user._id,
+    updatedBy: req.user._id,
   });
 
-  return categoryToCreate
+  return supplierToCreate
     .save()
     .then(() =>
       res.status(201).json({
-        message: 'New category is created successfully.',
-        data: categoryToCreate,
+        message: 'New supplier is created successfully.',
       }),
     )
     .catch(errSaving => res.status(500).json({ error: errSaving }));
@@ -74,29 +58,29 @@ exports.delete = async (req, res) => {
   if (req.params.id) {
     const databaseQuery = { _id: req.params.id };
 
-    const categories = await Category.deleteOne(databaseQuery).catch(
+    const suppliers = await Supplier.deleteOne(databaseQuery).catch(
       errorDeleting => res.status(500).json({ error: errorDeleting }),
     );
 
     return res.status(200).json({
-      data: categories,
-      categoryId: databaseQuery,
+      data: suppliers,
+      supplierId: databaseQuery,
     });
   }
 
   return res.status(400).json({
-    message: 'Category was not found.',
+    message: 'Supplier was not found.',
   });
 };
 
 exports.update = async (req, res) => {
-  const category = await Category.findById(req.params.id).catch(errFinding =>
+  const supplier = await Supplier.findById(req.params.id).catch(errFinding =>
     res.status(500).json({ error: errFinding }),
   );
 
-  if (!category) {
+  if (!supplier) {
     return res.status(404).json({
-      message: "Category with given id wasn't found.",
+      message: "Supplier with given id wasn't found.",
     });
   }
 
@@ -104,12 +88,14 @@ exports.update = async (req, res) => {
     delete req.body.name;
   }
 
-  const updatedCategory = await Category.findByIdAndUpdate(req.params.id, {
+  req.body.updatedBy = req.user._id;
+
+  const updatedSupplier = await Supplier.findByIdAndUpdate(req.params.id, {
     $set: req.body,
   }).catch(errUpdating => res.status(500).json({ error: errUpdating }));
 
   return res.status(200).json({
-    message: 'Category has been updated.',
-    data: updatedCategory,
+    message: 'Supplier has been updated.',
+    data: updatedSupplier,
   });
 };

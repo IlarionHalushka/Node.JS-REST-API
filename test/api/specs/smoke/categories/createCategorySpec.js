@@ -84,17 +84,16 @@ describe('Smoke: Category creation', () => {
       // check response from server
       expect(res.body.message).to.equal(param.responseMessage);
 
-      // by default "active" is true
-      if (param.categoryData.active === undefined) {
-        param.categoryData.active = true;
-      }
-
       // check data in DB
       const categoriesInDB = await Category.find({
         name: param.categoryData.name,
       });
       expect(categoriesInDB.length).to.equal(1);
       expect(categoriesInDB[0].photos).to.deep.equal(param.categoryData.photos);
+      // by default "active" is true
+      if (param.categoryData.active === undefined) {
+        param.categoryData.active = true;
+      }
       expect(categoriesInDB[0].active).to.equal(param.categoryData.active);
     });
   });

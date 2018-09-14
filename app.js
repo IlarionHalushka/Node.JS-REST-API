@@ -9,6 +9,7 @@ import rateLimit from 'express-rate-limit';
 import swaggerDocument from './swagger.json';
 import authRouter from './routes/auth';
 import categoriesRouter from './routes/categories';
+import suppliersRouter from './routes/suppliers';
 
 const app = express();
 
@@ -51,6 +52,7 @@ const limiter = rateLimit({
 });
 app.use('/api/v1/auth', limiter, authRouter);
 app.use('/api/v1/categories', categoriesRouter);
+app.use('/api/v1/suppliers', suppliersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

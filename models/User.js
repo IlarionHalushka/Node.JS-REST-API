@@ -4,44 +4,39 @@ import bcrypt from 'bcrypt';
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
-      $type: String,
+      type: String,
       required: true,
     },
     lastName: {
-      $type: String,
+      type: String,
       required: true,
     },
     email: {
-      $type: String,
+      type: String,
       index: {
         required: true,
       },
     },
     picture: {
-      $type: String,
+      type: String,
     },
     password: {
-      $type: String,
+      type: String,
       index: {
         required: true,
       },
     },
     role: {
-      $type: String,
+      type: String,
       enum: ['ADMIN', 'USER'],
       default: 'USER',
     },
     banned: {
-      $type: Boolean,
+      type: Boolean,
       default: false,
-    },
-    createdAt: {
-      $type: Date,
-      default: () => new Date(),
     },
   },
   {
-    typeKey: '$type',
     timestamps: {
       createdAt: true,
       updatedAt: true,
@@ -68,6 +63,8 @@ export const publicFields = [
   'email',
   'role',
   'picture',
+  'createdAt',
+  'updatedAt',
 ];
 
 export default mongoose.model('User', UserSchema);

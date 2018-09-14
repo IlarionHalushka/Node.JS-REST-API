@@ -14,3 +14,6 @@ export const getTokenClaim = async (token, secret) => {
 
   return tokenClaim;
 };
+
+export const escapeRegexSpecialChars = stringWithRegexSpecialChars =>
+  stringWithRegexSpecialChars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
