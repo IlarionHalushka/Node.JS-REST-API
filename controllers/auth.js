@@ -7,21 +7,19 @@ import * as utils from '../utils';
 
 exports.signUp = async (req, res) => {
   // check for already registered email
-  await User.find({ email: req.body.email })
-    .exec()
-    .then(user => {
-      if (user.length >= 1) {
-        return res.status(409).json({
-          message: 'Email is already registered.',
-        });
-      }
-      return user;
-    })
+  const isUserExists = await User.find({ email: req.body.email })
+    .countDocuments()
     .catch(errFinding => {
       res.status(500).json({
         error: errFinding,
       });
     });
+
+  if (isUserExists) {
+    return res.status(409).json({
+      message: 'Email is already registered.',
+    });
+  }
 
   // create new user
   const userToCreate = new User({
@@ -33,7 +31,7 @@ exports.signUp = async (req, res) => {
     passwordConfirmation: req.body.passwordConfirmation,
   });
 
-  userToCreate
+  return userToCreate
     .save()
     .then(() =>
       res.status(201).json({
@@ -60,7 +58,6 @@ exports.signIn = async (req, res) => {
       return user;
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         error: err,
       });
@@ -132,8 +129,6 @@ exports.requireLogin = () => async (req, res, next) => {
 
 exports.requireAdminLogin = () => async (req, res, next) => {
   let user;
-
-  console.log(user, 'require ADMIN LOGIN');
 
   try {
     user = await getLoggedInUser(req);

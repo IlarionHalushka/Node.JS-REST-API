@@ -4,3 +4,6 @@ dist
 .vscode
 mochawesome-report
 package-lock.json
+.history
+coverage
+.nyc

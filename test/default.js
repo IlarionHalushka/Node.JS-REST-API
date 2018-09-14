@@ -1,7 +1,8 @@
 global.chai = require('chai');
 global.supertest = require('supertest');
 global.expect = require('chai').expect;
-global.api = require('supertest')('http://localhost:3000');
+const server = require('../app');
+global.api = require('supertest')(server);
 global.mongoose = require('mongoose');
 global.config = require('./../config/enviroment');
 global.routes = require('./common/routes');

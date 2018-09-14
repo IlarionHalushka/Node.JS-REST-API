@@ -17,6 +17,10 @@ const CategorySchema = new mongoose.Schema(
   },
   {
     typeKey: '$type',
+    timestamps: {
+      createdAt: true,
+      updatedAt: true,
+    },
   },
 );
 

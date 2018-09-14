@@ -11,12 +11,17 @@ const publicFields = {
 exports.get = async (req, res) => {
   const databaseQuery = {};
 
-  if (!req.query.includeInactive) {
+  if (
+    req.query.includeInactive === undefined ||
+    req.query.includeInactive === 'false'
+  ) {
     databaseQuery.active = true;
   }
 
   if (req.query.name) {
-    databaseQuery.name = RegExp(`${req.query.name}`, 'i');
+    req.query.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    databaseQuery.name = new RegExp(`${req.query.name}`, 'i');
   }
 
   const categories = await Category.find(databaseQuery, publicFields);
@@ -38,21 +43,19 @@ exports.show = async (req, res) => {
 
 exports.create = async (req, res) => {
   // check for already registered category name
-  await Category.find({ name: req.body.name })
-    .exec()
-    .then(category => {
-      if (category.length >= 1) {
-        return res.status(409).json({
-          message: 'Category is already created.',
-        });
-      }
-      return category;
-    })
+  const isCategoryExists = await Category.find({ name: req.body.name })
+    .countDocuments()
     .catch(errFinding => {
       res.status(500).json({
         error: errFinding,
       });
     });
+
+  if (isCategoryExists) {
+    return res.status(409).json({
+      message: 'Category is already created.',
+    });
+  }
 
   // create new category
   const categoryToCreate = new Category({
@@ -62,7 +65,7 @@ exports.create = async (req, res) => {
     active: req.body.active,
   });
 
-  categoryToCreate
+  return categoryToCreate
     .save()
     .then(() =>
       res.status(201).json({

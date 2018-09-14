@@ -6,8 +6,9 @@
     "start": "node ./bin/www --exec babel-node --presets es2015,stage-2",
     "dev": "nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
     "debug": "nodemon --inspect-brk ./bin/www --exec babel-node --presets es2015,stage-2",
-    "api-test": "mocha",
+    "api-test": "mocha --recursive ./test/api/specs/",
     "api-test-debug": "mocha --inspect-bkg --timeout 1000000000",
+    "api-test-coverage": "nyc --reporter=lcov mocha",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -64,6 +65,7 @@
     "js-yaml": "^3.12.0",
     "lint-staged": "^7.2.2",
     "nodemon": "^1.18.4",
+    "nyc": "^13.0.1",
     "prettier": "^1.14.2"
   }
 }

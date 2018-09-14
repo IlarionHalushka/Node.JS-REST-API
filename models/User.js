@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema(
   },
   {
     typeKey: '$type',
+    timestamps: {
+      createdAt: true,
+      updatedAt: true,
+    },
   },
 );
 
@@ -53,10 +57,6 @@ UserSchema.pre('save', async function userPreSave(next) {
 
   next();
 });
-
-UserSchema.methods.checkPassword = function checkPassword(password) {
-  return bcrypt.compare(password, this.password);
-};
 
 UserSchema.methods.isAdmin = function isAdmin() {
   return this.role === 'ADMIN';
