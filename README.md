@@ -1,3 +1,8 @@
+**To install dependencies:**
+```
+$npm install
+```
+
 **To run server:**
 ```
 $mongod
@@ -13,7 +18,7 @@ $npm run dev
 $mongod
 $npm run api-test
 ```
-
+Open in browser `./mochawesome-report/mochawesome.html`  to see the test run report. 
 
 **To run prettier and eslint on staged files:**
 ```
@@ -45,4 +50,4 @@ $npm run api-test-debug
 $mongod
 $npm run api-test-coverage
 ```
-Open in browser `./coverage/lcov-report/index.html`  to see the test coverage of files and functions. 
+Open in browser `./coverage/lcov-report/index.html`  to see the test coverage report. 
