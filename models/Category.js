@@ -1,34 +1,25 @@
 import mongoose from 'mongoose';
+import { BaseModel, baseModelPublicFields } from './BaseModel';
 
-const CategorySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
+const options = { discriminatorKey: 'kind' };
+
+const CategorySchema = BaseModel.discriminator(
+  'Category',
+  new mongoose.Schema(
+    {
+      photos: {
+        type: Array,
+        default: [],
+      },
+      active: {
+        type: Boolean,
+        default: true,
+      },
     },
-    photos: {
-      type: Array,
-      default: [],
-    },
-    active: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  {
-    timestamps: {
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
+    options,
+  ),
 );
 
-export const publicFields = [
-  'name',
-  'photos',
-  'active',
-  'createdAt',
-  'updatedAt',
-];
+export const publicFields = ['photos', 'active'].push(baseModelPublicFields);
 
-export default mongoose.model('Category', CategorySchema);
+export default CategorySchema;

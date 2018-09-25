@@ -18,7 +18,7 @@ const params = [
     supplierData: {
       ...supplierData,
     },
-    responseMessage: 'New supplier is created successfully.',
+    responseMessage: 'New Supplier is created successfully.',
   },
   {
     description: 'with 1 photo',
@@ -26,7 +26,7 @@ const params = [
       ...supplierData,
       photos: [supplierData.photos[0]],
     },
-    responseMessage: 'New supplier is created successfully.',
+    responseMessage: 'New Supplier is created successfully.',
   },
   {
     description: 'with 0 photos',
@@ -34,7 +34,7 @@ const params = [
       ...supplierData,
       photos: [],
     },
-    responseMessage: 'New supplier is created successfully.',
+    responseMessage: 'New Supplier is created successfully.',
   },
   {
     description: 'with empty description',
@@ -42,7 +42,7 @@ const params = [
       ...supplierData,
       description: '',
     },
-    responseMessage: 'New supplier is created successfully.',
+    responseMessage: 'New Supplier is created successfully.',
   },
 ];
 
@@ -54,7 +54,6 @@ describe('Smoke: Supplier creation', () => {
 
     // login user with role ADMIN and get jwt token
     authToken = await testHelpers.authorization.login('ADMIN');
-
     currentSessionUserId = testHelpers.session.getCurrentUser()._id;
   });
 

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { codes } from '../config/httpCodes';
 
 export const getTokenClaim = async (token, secret) => {
   let tokenClaim;
@@ -7,7 +8,7 @@ export const getTokenClaim = async (token, secret) => {
     tokenClaim = await jwt.verify(token, secret);
   } catch (error) {
     const responseError = new Error('ERR_INVALID_TOKEN');
-    responseError.status = 400;
+    responseError.status = codes.BAD_REQUEST;
 
     throw responseError;
   }
@@ -17,3 +18,22 @@ export const getTokenClaim = async (token, secret) => {
 
 export const escapeRegexSpecialChars = stringWithRegexSpecialChars =>
   stringWithRegexSpecialChars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+export const throwError = (res, error) => {
+  const { message, status = codes.INTERNAL_SERVER_ERROR, data } = error;
+
+  console.error(error);
+
+  res.status(status).json({
+    error: message,
+    data,
+  });
+};
+
+export const wrapAsyncError = endpoint => async (req, res) => {
+  try {
+    await endpoint(req, res);
+  } catch (error) {
+    throwError(res, error);
+  }
+};

@@ -159,7 +159,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Category is created",
+            "description": "Entity is created",
             "schema": {
               "$ref": "#/definitions/Categories"
             } 

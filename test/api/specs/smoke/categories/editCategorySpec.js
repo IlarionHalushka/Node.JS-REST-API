@@ -4,6 +4,7 @@ import photos from '../../../../common/data/photos';
 let authToken;
 const categoriesRoute = routes.categories;
 let categoryIdToUpdate;
+let currentSessionUserId;
 
 const categoryDataOnePhotoActive = {
   name: 'Electronics',
@@ -74,10 +75,19 @@ describe('Smoke: Category editing', () => {
 
     // login user with role ADMIN and get jwt token
     authToken = await testHelpers.authorization.login('ADMIN');
+    currentSessionUserId = testHelpers.session.getCurrentUser()._id;
   });
 
   beforeEach(async () => {
-    categoryIdToUpdate = await Category(categoryDataOnePhotoActive)
+    // set createdBy updatedBy with userId
+    const categoryDataOnePhotoActiveWithCreatedByUpdatedBy = {
+      ...categoryDataOnePhotoActive,
+      createdBy: currentSessionUserId,
+      updatedBy: currentSessionUserId,
+    };
+    categoryIdToUpdate = await Category(
+      categoryDataOnePhotoActiveWithCreatedByUpdatedBy,
+    )
       .save()
       .then(data => data._id);
   });

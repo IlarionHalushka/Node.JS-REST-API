@@ -2,6 +2,7 @@ import { User, Category } from '../../../../../models';
 import photos from '../../../../common/data/photos';
 
 let authToken;
+let currentSessionUserId;
 
 const params = [{ role: 'USER' }, { role: 'ADMIN' }, { role: '' }];
 
@@ -13,7 +14,7 @@ const categoryDataOnePhotoActive = {
   active: true,
 };
 
-const categoryDatInactive = {
+const categoryDataInactive = {
   name: 'InactiveCategory',
   photos: [photos.formats.png],
   active: false,
@@ -28,13 +29,26 @@ params.forEach(param => {
 
       // login user with role param.role and get jwt token
       authToken = await testHelpers.authorization.login(param.role);
+      currentSessionUserId = testHelpers.session.getCurrentUser()._id;
     });
 
     beforeEach(async () => {
+      // set createdBy updatedBy with userId for active category data
+      const categoryDataOnePhotoActiveWithCreatedByUpdatedBy = {
+        ...categoryDataOnePhotoActive,
+        createdBy: currentSessionUserId,
+        updatedBy: currentSessionUserId,
+      };
+      // set createdBy updatedBy with userId for inactive category data
+      const categoryDataOnePhotoInactiveWithCreatedByUpdatedBy = {
+        ...categoryDataInactive,
+        createdBy: currentSessionUserId,
+        updatedBy: currentSessionUserId,
+      };
       // save 2 active and one inactive category in DB
-      await Category(categoryDataOnePhotoActive).save();
-      await Category(categoryDataOnePhotoActive).save();
-      await Category(categoryDatInactive).save();
+      await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
+      await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
+      await Category(categoryDataOnePhotoInactiveWithCreatedByUpdatedBy).save();
     });
 
     afterEach(async () => {

@@ -2,6 +2,7 @@ import { User, Category } from '../../../../../models/index';
 import photos from '../../../../common/data/photos';
 
 let authToken;
+let currentSessionUserId;
 const categoriesRoute = routes.categories;
 
 const categoryData = {
@@ -16,7 +17,7 @@ const params = [
     categoryData: {
       ...categoryData,
     },
-    responseMessage: 'New category is created successfully.',
+    responseMessage: 'New Category is created successfully.',
   },
   {
     description: 'with 1 photo',
@@ -24,7 +25,7 @@ const params = [
       ...categoryData,
       photos: [categoryData.photos[0]],
     },
-    responseMessage: 'New category is created successfully.',
+    responseMessage: 'New Category is created successfully.',
   },
   {
     description: 'with 0 photos',
@@ -32,7 +33,7 @@ const params = [
       ...categoryData,
       photos: [],
     },
-    responseMessage: 'New category is created successfully.',
+    responseMessage: 'New Category is created successfully.',
   },
   {
     description: 'with no "active" field',
@@ -40,7 +41,7 @@ const params = [
       name: categoryData.name,
       photos: categoryData.photos,
     },
-    responseMessage: 'New category is created successfully.',
+    responseMessage: 'New Category is created successfully.',
   },
   {
     description: 'with active false',
@@ -49,7 +50,7 @@ const params = [
       photos: categoryData.photos,
       active: false,
     },
-    responseMessage: 'New category is created successfully.',
+    responseMessage: 'New Category is created successfully.',
   },
 ];
 
@@ -61,6 +62,7 @@ describe('Smoke: Category creation', () => {
 
     // login user with role ADMIN and get jwt token
     authToken = await testHelpers.authorization.login('ADMIN');
+    currentSessionUserId = testHelpers.session.getCurrentUser()._id;
   });
 
   afterEach(async () => {
@@ -95,11 +97,21 @@ describe('Smoke: Category creation', () => {
         param.categoryData.active = true;
       }
       expect(categoriesInDB[0].active).to.equal(param.categoryData.active);
+      expect(categoriesInDB[0].createdBy).to.deep.equal(currentSessionUserId);
+      expect(categoriesInDB[0].updatedBy).to.deep.equal(currentSessionUserId);
+      expect(categoriesInDB[0].createdAt).to.be.a('date');
+      expect(categoriesInDB[0].updatedAt).to.be.a('date');
     });
   });
 
   it(`should return 409 when creating category with already existing name`, async () => {
-    await Category.create(categoryData);
+    // set createdBy updatedBy with userId for active category data
+    const categoryDataOnePhotoActiveWithCreatedByUpdatedBy = {
+      ...categoryData,
+      createdBy: currentSessionUserId,
+      updatedBy: currentSessionUserId,
+    };
+    await Category.create(categoryDataOnePhotoActiveWithCreatedByUpdatedBy);
 
     const res = await api
       .post(categoriesRoute)
@@ -117,5 +129,9 @@ describe('Smoke: Category creation', () => {
     expect(categoriesInDB.length).to.equal(1);
     expect(categoriesInDB[0].photos).to.deep.equal(categoryData.photos);
     expect(categoriesInDB[0].active).to.equal(categoryData.active);
+    expect(categoriesInDB[0].createdBy).to.deep.equal(currentSessionUserId);
+    expect(categoriesInDB[0].updatedBy).to.deep.equal(currentSessionUserId);
+    expect(categoriesInDB[0].createdAt).to.be.a('date');
+    expect(categoriesInDB[0].updatedAt).to.be.a('date');
   });
 });

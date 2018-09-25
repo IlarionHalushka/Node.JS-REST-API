@@ -4,15 +4,16 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../models';
 import * as utils from '../utils';
+import { codes } from '../config/httpCodes';
 
 exports.signUp = async (req, res) => {
   // check for already registered email
-  const isUserExists = await User.find({ email: req.body.email })
-    .countDocuments()
-    .catch(errFinding => res.status(500).json({ error: errFinding }));
+  const isUserExists = await User.find({
+    email: req.body.email,
+  }).countDocuments();
 
   if (isUserExists) {
-    return res.status(409).json({
+    return res.status(codes.CONFLICT).json({
       message: 'Email is already registered.',
     });
   }
@@ -26,15 +27,11 @@ exports.signUp = async (req, res) => {
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation,
   });
-
-  return userToCreate
-    .save()
-    .then(() =>
-      res.status(201).json({
-        message: 'New user is created successfully.',
-      }),
-    )
-    .catch(errSaving => res.status(500).json({ error: errSaving }));
+  //  TODO: Vova suggested to validate User.validate(userToCreate) before saving
+  await userToCreate.save();
+  return res.status(codes.CREATED).json({
+    message: 'New user is created successfully.',
+  });
 };
 
 exports.signIn = async (req, res) => {
@@ -43,18 +40,17 @@ exports.signIn = async (req, res) => {
     .exec()
     .then(user => {
       if (user.length < 1) {
-        return res.status(401).json({
+        return res.status(codes.UNAUTHORIZED).json({
           message: 'Auth failed',
         });
       }
       return user;
-    })
-    .catch(errFinding => res.status(500).json({ error: errFinding }));
+    });
 
   // if user was found in DB check password hashes and return response
   bcrypt.compare(req.body.password, userFromDB[0].password, (err, result) => {
     if (err) {
-      return res.status(401).json({
+      return res.status(codes.UNAUTHORIZED).json({
         message: 'Auth failed',
       });
     }
@@ -69,12 +65,12 @@ exports.signIn = async (req, res) => {
           expiresIn: '1h',
         },
       );
-      return res.status(200).json({
+      return res.status(codes.SUCCESS).json({
         message: 'Auth successful',
         token: tokenJwt,
       });
     }
-    return res.status(401).json({
+    return res.status(codes.UNAUTHORIZED).json({
       message: 'Auth failed',
     });
   });
@@ -89,13 +85,13 @@ const getLoggedInUser = async req => {
 
   if (!user) {
     const error = new Error('ERR_NOT_LOGGED_IN');
-    error.status = 401;
+    error.status = codes.UNAUTHORIZED;
     throw error;
   }
 
   if (user.banned) {
     const error = new Error('ERR_USER_BANNED');
-    error.status = 401;
+    error.status = codes.UNAUTHORIZED;
     throw error;
   }
 
@@ -126,7 +122,7 @@ exports.requireAdminLogin = () => async (req, res, next) => {
 
   if (!user.isAdmin()) {
     const error = new Error('ERR_USER_IS_NOT_AN_ADMIN');
-    error.status = 401;
+    error.status = codes.UNAUTHORIZED;
     return next(error);
   }
 

@@ -28,7 +28,6 @@ const morganMiddleware = morgan((tokens, req, res) =>
     chalk.hex('#f78fb3').bold(tokens.date(req, res)),
   ].join(' '),
 );
-
 app.use(morganMiddleware);
 
 // parse request

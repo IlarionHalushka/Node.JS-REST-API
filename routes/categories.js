@@ -1,31 +1,32 @@
 import express from 'express';
 import { authController, categoriesController } from '../controllers';
 import * as validators from '../validators';
+import { wrapAsyncError } from '../utils';
 
 const router = express.Router();
 
-router.get('/:id', categoriesController.show);
+router.get('/:id', wrapAsyncError(categoriesController.show));
 
-router.get('/', categoriesController.get);
+router.get('/', wrapAsyncError(categoriesController.get));
 
 router.post(
   '/',
   authController.requireAdminLogin(),
   validators.categories.create,
-  categoriesController.create,
+  wrapAsyncError(categoriesController.create),
 );
 
 router.patch(
   '/:id',
   authController.requireAdminLogin(),
   validators.categories.update,
-  categoriesController.update,
+  wrapAsyncError(categoriesController.update),
 );
 
 router.delete(
   '/:id',
   authController.requireAdminLogin(),
-  categoriesController.delete,
+  wrapAsyncError(categoriesController.delete),
 );
 
 module.exports = router;

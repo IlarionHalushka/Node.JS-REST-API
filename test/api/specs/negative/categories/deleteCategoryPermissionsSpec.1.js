@@ -13,6 +13,7 @@ const params = [
 ];
 
 let authToken;
+let currentSessionUserId;
 const categoriesRoute = routes.categories;
 
 const categoryDataOnePhotoActive = {
@@ -30,11 +31,18 @@ params.forEach(param => {
 
       // login user with role param.role and get jwt token
       authToken = await testHelpers.authorization.login(param.role);
+      currentSessionUserId = testHelpers.session.getCurrentUser()._id;
     });
 
     beforeEach(async () => {
-      await Category(categoryDataOnePhotoActive).save();
-      await Category(categoryDataOnePhotoActive).save();
+      // set createdBy updatedBy with userId
+      const categoryDataOnePhotoActiveWithCreatedByUpdatedBy = {
+        ...categoryDataOnePhotoActive,
+        createdBy: currentSessionUserId,
+        updatedBy: currentSessionUserId,
+      };
+      await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
+      await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
     });
 
     afterEach(async () => {
