@@ -2,7 +2,7 @@
 
 **Technologies used:**
 
-Node.JS, Express, MongoDB, Swagger, TDD, Supertest, Mocha, Chai, ESlint, Istanbul
+Node.JS, Express, MongoDB, Mongoose, Swagger, Supertest, Mocha, Chai, ESlint, Istanbul
 
 **To install dependencies:**
 ```
