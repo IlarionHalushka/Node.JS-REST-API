@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
 import chalk from 'chalk';
 
-import swaggerDocument from './swagger.json';
+import swaggerDocument from '../swagger.json';
 import authRouter from './routes/auth';
 import categoriesRouter from './routes/categories';
 import suppliersRouter from './routes/suppliers';

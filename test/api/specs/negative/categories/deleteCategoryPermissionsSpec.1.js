@@ -1,4 +1,4 @@
-import { User, Category } from '../../../../../models';
+import { User, Category } from '../../../../../server/models';
 import photos from '../../../../common/data/photos';
 
 const params = [

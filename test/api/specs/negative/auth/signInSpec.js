@@ -1,4 +1,4 @@
-import { User } from '../../../../../models/index';
+import { User } from '../../../../../server/models/index';
 
 describe('Negative: Signin', () => {
   const userSignInRoute = routes.auth.login;

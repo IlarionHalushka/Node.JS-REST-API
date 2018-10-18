@@ -1,4 +1,4 @@
-import { User } from '../../../../../models/index';
+import { User } from '../../../../../server/models/index';
 
 describe('Smoke: Signup', () => {
   const userSignupRoute = routes.auth.signUp;
@@ -29,13 +29,12 @@ describe('Smoke: Signup', () => {
     expect(res.body.message).to.equal('New user is created successfully.');
 
     // check user data in DB
-    const usersInDB = await User.find();
-    expect(usersInDB[0].email).to.equal(userCreds.email);
-    expect(usersInDB[0].lastName).to.equal(userCreds.lastName);
-    expect(usersInDB[0].firstName).to.equal(userCreds.firstName);
-    expect(usersInDB[0].password).to.be.a('string');
-    expect(usersInDB[0].role).to.equal('USER');
-    expect(usersInDB.length).to.equal(1);
+    const usersInDB = await User.findOne();
+    expect(usersInDB.email).to.equal(userCreds.email);
+    expect(usersInDB.lastName).to.equal(userCreds.lastName);
+    expect(usersInDB.firstName).to.equal(userCreds.firstName);
+    expect(usersInDB.password).to.be.a('string');
+    expect(usersInDB.role).to.equal('USER');
   });
 
   it('should return 409 when registering user with existing email', async () => {

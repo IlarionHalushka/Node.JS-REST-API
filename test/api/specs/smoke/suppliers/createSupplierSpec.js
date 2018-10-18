@@ -1,4 +1,4 @@
-import { User, Supplier } from '../../../../../models';
+import { User, Supplier } from '../../../../../server/models';
 import photos from '../../../../common/data/photos';
 
 let authToken;

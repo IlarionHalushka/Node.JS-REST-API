@@ -1,4 +1,4 @@
-import { User, Category } from '../../../../../models/index';
+import { User, Category } from '../../../../../server/models/index';
 import photos from '../../../../common/data/photos';
 
 let authToken;

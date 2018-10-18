@@ -1,4 +1,4 @@
-import User from '../../../models/User';
+import User from '../../../server/models/User';
 
 const APIHelpers = {
   login: async userRole => {

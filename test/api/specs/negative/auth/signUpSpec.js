@@ -1,4 +1,4 @@
-import { User } from '../../../../../models/index';
+import { User } from '../../../../../server/models/index';
 
 describe('Negative: Signup', () => {
   const userSignUpRoute = routes.auth.signUp;

@@ -1,10 +1,10 @@
 global.chai = require('chai');
 global.supertest = require('supertest');
 global.expect = require('chai').expect;
-const server = require('../app');
+const server = require('../server/app');
 global.api = require('supertest')(server);
 global.mongoose = require('mongoose');
-global.config = require('./../config/enviroment');
+global.config = require('../server/config/enviroment');
 global.routes = require('./common/routes');
 global.testHelpers = require('./common/testHelpers');
 
