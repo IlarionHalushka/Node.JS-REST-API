@@ -1,3 +1,9 @@
+## Node.JS REST API developed with TDD approach.
+
+**Technologies used:**
+
+Node.JS, Express, MongoDB, Mongoose, Swagger, Supertest, Mocha, Chai, ESlint, Istanbul
+
 **To install dependencies:**
 ```
 $npm install
