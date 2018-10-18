@@ -1,9 +1,9 @@
 {
-  "name": "petProjectBackend",
+  "name": "backendapi",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www --exec babel-node --presets es2015,stage-2",
+    "start": "export PORT=8080 && node ./bin/www --exec babel-node --presets es2015,stage-2",
     "dev": "nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
     "debug": "nodemon --inspect-brk ./bin/www --exec babel-node --presets es2015,stage-2",
     "api-test": "export NODE_ENV=test && export JWT_KEY=secret && mocha --recursive ./test/api/specs/",
