@@ -32,7 +32,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "base64-img": "^1.0.4",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^2.0.0",
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
     "chalk":"^2.4.1",
