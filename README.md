@@ -17,7 +17,7 @@ $npm run dev
 
 **Swagger documentation:**
 
-`http://localhost:3000/api-docs/`
+`http://localhost:8080/api-docs/`
 
 **To run auto tests:**
 ```

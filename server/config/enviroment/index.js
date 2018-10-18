@@ -1,5 +1,6 @@
 import development from './development';
 import test from './test';
+import production from './production';
 
 let environmentPath;
 
@@ -9,6 +10,9 @@ switch (process.env.NODE_ENV) {
     break;
   case 'test':
     environmentPath = test;
+    break;
+  case 'production':
+    environmentPath = production;
     break;
   default:
     environmentPath = development;
