@@ -22,7 +22,6 @@
     }
   ],
   "schemes": [
-    "http",
     "https"
   ],
   "consumes": [
