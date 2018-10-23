@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8080",
+  "host": "nodejs-api-219820.appspot.com",
   "basePath": "/api/v1",
   "tags": [
     {
