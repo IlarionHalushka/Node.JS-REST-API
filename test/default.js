@@ -8,8 +8,6 @@ global.config = require('../server/config/enviroment');
 global.routes = require('./common/routes');
 global.testHelpers = require('./common/testHelpers');
 
-process.env.NODE_ENV = 'development';
-
 global.connection = global.mongoose.createConnection(config.mongo.uri);
 
 before(async () => {
