@@ -10,6 +10,7 @@ router.post(
   validators.auth.signUp,
   wrapAsyncError(authController.signUp),
 );
+
 router.post(
   '/signIn',
   validators.auth.signIn,

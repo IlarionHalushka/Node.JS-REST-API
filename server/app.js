@@ -8,9 +8,7 @@ import rateLimit from 'express-rate-limit';
 import chalk from 'chalk';
 
 import swaggerDocument from '../swagger.json';
-import authRouter from './routes/auth';
-import categoriesRouter from './routes/categories';
-import suppliersRouter from './routes/suppliers';
+import routes from './routes';
 
 const app = express();
 
@@ -48,16 +46,17 @@ app.use((req, res, next) => {
   return next();
 });
 
+// set up request limiter
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // limit each IP to 100 requests per windowMs
+});
+
 // main routers
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-});
-app.use('/api/v1/auth', limiter, authRouter);
-app.use('/api/v1/categories', categoriesRouter);
-app.use('/api/v1/suppliers', suppliersRouter);
+app.use('/api/v1/auth', limiter, routes.auth);
+app.use('/api/v1/categories', routes.categories);
+app.use('/api/v1/suppliers', routes.suppliers);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
