@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../models';
 import * as utils from '../utils';
-import { codes } from '../config/httpCodes';
+import { codes, messages } from '../constants';
 
 exports.signUp = async (req, res) => {
   // check for already registered email
@@ -14,7 +14,7 @@ exports.signUp = async (req, res) => {
 
   if (isUserExists) {
     return res.status(codes.CONFLICT).json({
-      message: 'Email is already registered.',
+      message: messages.EMAIL_ALREADY_REGISTERED,
     });
   }
 
@@ -27,10 +27,10 @@ exports.signUp = async (req, res) => {
     password: req.body.password,
     passwordConfirmation: req.body.passwordConfirmation,
   });
-  //  TODO: Vova suggested to validate User.validate(userToCreate) before saving
+
   await userToCreate.save();
   return res.status(codes.CREATED).json({
-    message: 'New user is created successfully.',
+    message: messages.CREATED,
   });
 };
 
@@ -41,7 +41,7 @@ exports.signIn = async (req, res) => {
     .then(user => {
       if (user.length < 1) {
         return res.status(codes.UNAUTHORIZED).json({
-          message: 'Auth failed',
+          message: messages.AUTH_FAILED,
         });
       }
       return user;
@@ -51,7 +51,7 @@ exports.signIn = async (req, res) => {
   bcrypt.compare(req.body.password, userFromDB[0].password, (err, result) => {
     if (err) {
       return res.status(codes.UNAUTHORIZED).json({
-        message: 'Auth failed',
+        message: messages.AUTH_FAILED,
       });
     }
     if (result) {
@@ -66,12 +66,12 @@ exports.signIn = async (req, res) => {
         },
       );
       return res.status(codes.SUCCESS).json({
-        message: 'Auth successful',
+        message: messages.AUTH_SUCCESSFUL,
         token: tokenJwt,
       });
     }
     return res.status(codes.UNAUTHORIZED).json({
-      message: 'Auth failed',
+      message: messages.AUTH_FAILED,
     });
   });
 };
@@ -84,13 +84,13 @@ const getLoggedInUser = async req => {
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
-    const error = new Error('ERR_NOT_LOGGED_IN');
+    const error = new Error(messages.NOT_LOGGED_IN);
     error.status = codes.UNAUTHORIZED;
     throw error;
   }
 
   if (user.banned) {
-    const error = new Error('ERR_USER_BANNED');
+    const error = new Error(messages.USER_BANNED);
     error.status = codes.UNAUTHORIZED;
     throw error;
   }
@@ -121,7 +121,7 @@ exports.requireAdminLogin = () => async (req, res, next) => {
   }
 
   if (!user.isAdmin()) {
-    const error = new Error('ERR_USER_IS_NOT_AN_ADMIN');
+    const error = new Error(messages.UNAUTHORIZED);
     error.status = codes.UNAUTHORIZED;
     return next(error);
   }

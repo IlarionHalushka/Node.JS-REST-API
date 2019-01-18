@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { codes } from '../config/httpCodes';
+import { codes } from '../constants';
 
 export const getTokenClaim = async (token, secret) => {
   let tokenClaim;
@@ -22,7 +22,7 @@ export const escapeRegexSpecialChars = stringWithRegexSpecialChars =>
 export const throwError = (res, error) => {
   const { message, status = codes.INTERNAL_SERVER_ERROR, data } = error;
 
-  console.error(error);
+  console.error(error); // es-lint-disable-line
 
   res.status(status).json({
     error: message,

@@ -1,5 +1,5 @@
 import { escapeRegexSpecialChars } from '../utils';
-import { codes } from '../config/httpCodes';
+import { codes } from '../constants';
 
 exports.get = async (req, res, Model, databaseQuery) => {
   if (req.query.name) {
