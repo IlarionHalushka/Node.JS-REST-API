@@ -74,9 +74,7 @@ describe('Smoke: Category creation', () => {
   });
 
   params.forEach(param => {
-    it(`should return 201 when creating category ${
-      param.description
-    }`, async () => {
+    it(`should return 201 when creating category ${param.description}`, async () => {
       const res = await api
         .post(categoriesRoute)
         .set({ Authorization: authToken })

@@ -41,9 +41,7 @@ describe('Category creation validation', () => {
   });
 
   params.forEach(param => {
-    it(`should return 400 when creating category with ${
-      param.validationMessage
-    }`, async () => {
+    it(`should return 400 when creating category with ${param.validationMessage}`, async () => {
       const res = await api
         .post(categoriesRoute)
         .set({ Authorization: authToken })

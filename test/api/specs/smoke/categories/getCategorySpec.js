@@ -84,9 +84,7 @@ params.forEach(param => {
         .expect(200);
 
       expect(res.body.data.name).to.equal(categoryDataOnePhotoActive.name);
-      expect(res.body.data.photos).to.deep.equal(
-        categoryDataOnePhotoActive.photos,
-      );
+      expect(res.body.data.photos).to.deep.equal(categoryDataOnePhotoActive.photos);
       expect(res.body.data.active).to.equal(categoryDataOnePhotoActive.active);
     });
 
@@ -98,9 +96,7 @@ params.forEach(param => {
 
       expect(res.body.data.length).to.equal(3);
 
-      const inactiveCategories = res.body.data.filter(
-        value => value.active === false,
-      );
+      const inactiveCategories = res.body.data.filter(value => value.active === false);
       expect(inactiveCategories[0].active).to.equal(false);
     });
   });

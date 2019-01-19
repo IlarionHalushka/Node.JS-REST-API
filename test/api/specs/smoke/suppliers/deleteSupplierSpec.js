@@ -52,9 +52,7 @@ describe('Smoke: Supplier deleting', () => {
       .expect(200);
 
     // check in DB that supplier with id supplierIdToDelete is deleted
-    const suppliersInDBAfterDeleting = await Supplier.findById(
-      supplierIdToDelete,
-    );
+    const suppliersInDBAfterDeleting = await Supplier.findById(supplierIdToDelete);
     expect(suppliersInDBAfterDeleting).to.be.a('null');
   });
 });

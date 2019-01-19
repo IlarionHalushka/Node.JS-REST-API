@@ -42,9 +42,7 @@ params.forEach(param => {
         createdBy: currentSessionUserId,
         updatedBy: currentSessionUserId,
       };
-      categoryIdToEdit = await Category(
-        categoryDataOnePhotoActiveWithCreatedByUpdatedBy,
-      )
+      categoryIdToEdit = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy)
         .save()
         .then(document => document._id);
     });
@@ -72,15 +70,9 @@ params.forEach(param => {
       });
       expect(categoriesInDBAfterEditing.length).to.equal(1);
 
-      expect(categoriesInDBAfterEditing[0].photos).to.deep.equal(
-        categoryDataOnePhotoActive.photos,
-      );
-      expect(categoriesInDBAfterEditing[0].active).to.equal(
-        categoryDataOnePhotoActive.active,
-      );
-      expect(categoriesInDBAfterEditing[0].name).to.equal(
-        categoryDataOnePhotoActive.name,
-      );
+      expect(categoriesInDBAfterEditing[0].photos).to.deep.equal(categoryDataOnePhotoActive.photos);
+      expect(categoriesInDBAfterEditing[0].active).to.equal(categoryDataOnePhotoActive.active);
+      expect(categoriesInDBAfterEditing[0].name).to.equal(categoryDataOnePhotoActive.name);
     });
   });
 });

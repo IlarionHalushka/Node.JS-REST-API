@@ -19,8 +19,6 @@ const SupplierSchema = BaseModel.discriminator(
   ),
 );
 
-export const publicFields = ['name', 'photos', 'description'].push(
-  baseModelPublicFields,
-);
+export const publicFields = ['name', 'photos', 'description'].push(baseModelPublicFields);
 
 export default SupplierSchema;

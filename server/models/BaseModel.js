@@ -28,11 +28,6 @@ const BaseSchema = new mongoose.Schema(
   options,
 );
 
-export const baseModelPublicFields = [
-  'createdAt',
-  'updatedAt',
-  'createdBy',
-  'updatedBy',
-];
+export const baseModelPublicFields = ['createdAt', 'updatedAt', 'createdBy', 'updatedBy'];
 
 export const BaseModel = mongoose.model('BaseModel', BaseSchema);

@@ -51,9 +51,7 @@ describe('Smoke: Category deleting', () => {
       .expect(200);
 
     // check data in DB and compare with response data
-    const categoriesInDBAfterDeleting = await Category.findById(
-      categoryIdToDelete,
-    );
+    const categoriesInDBAfterDeleting = await Category.findById(categoryIdToDelete);
     expect(categoriesInDBAfterDeleting).to.be.a('null');
   });
 });

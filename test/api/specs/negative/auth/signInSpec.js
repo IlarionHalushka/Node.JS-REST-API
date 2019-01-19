@@ -94,9 +94,7 @@ describe('Negative: Signin', () => {
   });
 
   params.forEach(param => {
-    it(`should return ${param.responseCode} when ${
-      param.testCaseDescription
-    }`, async () => {
+    it(`should return ${param.responseCode} when ${param.testCaseDescription}`, async () => {
       const res = await api
         .post(userSignInRoute)
         .send(param.creds)

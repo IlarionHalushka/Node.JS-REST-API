@@ -66,9 +66,7 @@ describe('Smoke: Supplier creation', () => {
   });
 
   params.forEach(param => {
-    it(`should return 201 when creating supplier ${
-      param.description
-    }`, async () => {
+    it(`should return 201 when creating supplier ${param.description}`, async () => {
       const res = await api
         .post(suppliersRoute)
         .set({ Authorization: authToken })
@@ -84,9 +82,7 @@ describe('Smoke: Supplier creation', () => {
       });
       expect(suppliersInDB.length).to.equal(1);
       expect(suppliersInDB[0].photos).to.deep.equal(param.supplierData.photos);
-      expect(suppliersInDB[0].description).to.deep.equal(
-        param.supplierData.description,
-      );
+      expect(suppliersInDB[0].description).to.deep.equal(param.supplierData.description);
       expect(suppliersInDB[0].createdBy).to.deep.equal(currentSessionUserId);
       expect(suppliersInDB[0].updatedBy).to.deep.equal(currentSessionUserId);
       expect(suppliersInDB[0].createdAt).to.be.a('date');

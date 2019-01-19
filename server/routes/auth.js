@@ -5,16 +5,8 @@ import { wrapAsyncError } from '../utils';
 
 const router = express.Router();
 
-router.post(
-  '/signUp',
-  validators.auth.signUp,
-  wrapAsyncError(authController.signUp),
-);
+router.post('/signUp', validators.auth.signUp, wrapAsyncError(authController.signUp));
 
-router.post(
-  '/signIn',
-  validators.auth.signIn,
-  wrapAsyncError(authController.signIn),
-);
+router.post('/signIn', validators.auth.signIn, wrapAsyncError(authController.signIn));
 
 module.exports = router;

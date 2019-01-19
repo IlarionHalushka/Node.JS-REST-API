@@ -85,9 +85,7 @@ describe('Smoke: Category editing', () => {
       createdBy: currentSessionUserId,
       updatedBy: currentSessionUserId,
     };
-    categoryIdToUpdate = await Category(
-      categoryDataOnePhotoActiveWithCreatedByUpdatedBy,
-    )
+    categoryIdToUpdate = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy)
       .save()
       .then(data => data._id);
   });
@@ -101,9 +99,7 @@ describe('Smoke: Category editing', () => {
   });
 
   params.forEach(param => {
-    it(`should return 200 when updating category ${
-      param.description
-    }`, async () => {
+    it(`should return 200 when updating category ${param.description}`, async () => {
       const res = await api
         .patch(`${categoriesRoute}/${categoryIdToUpdate}`)
         .set({ Authorization: authToken })
@@ -121,10 +117,7 @@ describe('Smoke: Category editing', () => {
       if (param.categoryDataToEdit.active === undefined) {
         param.categoryDataToEdit.active = categoryDataOnePhotoActive.active;
       }
-      if (
-        param.categoryDataToEdit.name === undefined ||
-        param.categoryDataToEdit.name === ''
-      ) {
+      if (param.categoryDataToEdit.name === undefined || param.categoryDataToEdit.name === '') {
         param.categoryDataToEdit.name = categoryDataOnePhotoActive.name;
       }
 
@@ -135,15 +128,9 @@ describe('Smoke: Category editing', () => {
 
       expect(editedCategoryInDB.length).to.equal(1);
 
-      expect(editedCategoryInDB[0].photos).to.deep.equal(
-        param.categoryDataToEdit.photos,
-      );
-      expect(editedCategoryInDB[0].active).to.equal(
-        param.categoryDataToEdit.active,
-      );
-      expect(editedCategoryInDB[0].name).to.equal(
-        param.categoryDataToEdit.name,
-      );
+      expect(editedCategoryInDB[0].photos).to.deep.equal(param.categoryDataToEdit.photos);
+      expect(editedCategoryInDB[0].active).to.equal(param.categoryDataToEdit.active);
+      expect(editedCategoryInDB[0].name).to.equal(param.categoryDataToEdit.name);
     });
   });
 });

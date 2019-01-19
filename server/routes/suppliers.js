@@ -5,11 +5,7 @@ import { wrapAsyncError } from '../utils';
 
 const router = express.Router();
 
-router.get(
-  '/',
-  authController.requireAdminLogin(),
-  wrapAsyncError(suppliersController.get),
-);
+router.get('/', authController.requireAdminLogin(), wrapAsyncError(suppliersController.get));
 
 router.post(
   '/',

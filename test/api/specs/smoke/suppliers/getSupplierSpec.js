@@ -57,12 +57,8 @@ describe(`Smoke: Supplier fetching ADMIN role`, () => {
       expect(data.description).to.equal(supplierData.description);
       expect(data.createdBy).to.equal(`${currentSessionUserId._id}`);
       expect(data.updatedBy).to.equal(`${currentSessionUserId._id}`);
-      expect(new Date(data.updatedAt)).to.not.deep.equal(
-        new Date('Invalid Date'),
-      );
-      expect(new Date(data.createdAt)).to.not.deep.equal(
-        new Date('Invalid Date'),
-      );
+      expect(new Date(data.updatedAt)).to.not.deep.equal(new Date('Invalid Date'));
+      expect(new Date(data.createdAt)).to.not.deep.equal(new Date('Invalid Date'));
     });
   });
 });

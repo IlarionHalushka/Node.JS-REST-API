@@ -5,10 +5,7 @@
     "mocha": true
   },
 
-  "extends": [
-    "airbnb-base",
-    "prettier"
-  ],
+  "extends": ["airbnb-base", "prettier"],
 
   "globals": {
     "expect": true,
