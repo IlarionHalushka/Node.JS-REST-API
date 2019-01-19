@@ -85,9 +85,8 @@ describe('Smoke: Category editing', () => {
       createdBy: currentSessionUserId,
       updatedBy: currentSessionUserId,
     };
-    categoryIdToUpdate = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy)
-      .save()
-      .then(data => data._id);
+    const categoryInDB = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
+    categoryIdToUpdate = categoryInDB._id;
   });
 
   afterEach(async () => {

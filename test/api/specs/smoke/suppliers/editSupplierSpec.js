@@ -96,9 +96,8 @@ describe('Smoke: Supplier editing', () => {
       updatedBy: currentSessionUserId,
     };
     // create one suplier in db
-    supplierIdToUpdate = await Supplier(supplierDataWithCreatedByUpdatedBy)
-      .save()
-      .then(data => data._id);
+    const supplierInDB = await Supplier(supplierDataWithCreatedByUpdatedBy).save();
+    supplierIdToUpdate = supplierInDB._id;
   });
 
   afterEach(async () => {

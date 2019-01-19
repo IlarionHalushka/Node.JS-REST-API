@@ -42,9 +42,8 @@ params.forEach(param => {
         createdBy: currentSessionUserId,
         updatedBy: currentSessionUserId,
       };
-      categoryIdToEdit = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy)
-        .save()
-        .then(document => document._id);
+      const categoryInDB = await Category(categoryDataOnePhotoActiveWithCreatedByUpdatedBy).save();
+      categoryIdToEdit = categoryInDB._id;
     });
 
     afterEach(async () => {
