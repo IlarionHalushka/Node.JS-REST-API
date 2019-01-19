@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../models';
 import * as utils from '../utils';
-import { codes, messages } from '../constants';
+import { CODES, MESSAGES } from '../constants';
 
 exports.signUp = async (req, res) => {
   // check for already registered email
@@ -13,8 +13,8 @@ exports.signUp = async (req, res) => {
   }).countDocuments();
 
   if (isUserExists) {
-    return res.status(codes.CONFLICT).json({
-      message: messages.EMAIL_ALREADY_REGISTERED,
+    return res.status(CODES.CONFLICT).json({
+      message: MESSAGES.EMAIL_ALREADY_REGISTERED,
     });
   }
 
@@ -29,8 +29,8 @@ exports.signUp = async (req, res) => {
   });
 
   await userToCreate.save();
-  return res.status(codes.CREATED).json({
-    message: messages.CREATED,
+  return res.status(CODES.CREATED).json({
+    message: MESSAGES.CREATED,
   });
 };
 
@@ -40,8 +40,8 @@ exports.signIn = async (req, res) => {
     .exec()
     .then(user => {
       if (user.length < 1) {
-        return res.status(codes.UNAUTHORIZED).json({
-          message: messages.AUTH_FAILED,
+        return res.status(CODES.UNAUTHORIZED).json({
+          message: MESSAGES.AUTH_FAILED,
         });
       }
       return user;
@@ -50,8 +50,8 @@ exports.signIn = async (req, res) => {
   // if user was found in DB check password hashes and return response
   bcrypt.compare(req.body.password, userFromDB[0].password, (err, result) => {
     if (err) {
-      return res.status(codes.UNAUTHORIZED).json({
-        message: messages.AUTH_FAILED,
+      return res.status(CODES.UNAUTHORIZED).json({
+        message: MESSAGES.AUTH_FAILED,
       });
     }
     if (result) {
@@ -65,13 +65,13 @@ exports.signIn = async (req, res) => {
           expiresIn: '1h',
         },
       );
-      return res.status(codes.SUCCESS).json({
-        message: messages.AUTH_SUCCESSFUL,
+      return res.status(CODES.SUCCESS).json({
+        message: MESSAGES.AUTH_SUCCESSFUL,
         token: tokenJwt,
       });
     }
-    return res.status(codes.UNAUTHORIZED).json({
-      message: messages.AUTH_FAILED,
+    return res.status(CODES.UNAUTHORIZED).json({
+      message: MESSAGES.AUTH_FAILED,
     });
   });
 };
@@ -84,14 +84,14 @@ const getLoggedInUser = async req => {
   const user = await User.findOne({ _id: userId });
 
   if (!user) {
-    const error = new Error(messages.NOT_LOGGED_IN);
-    error.status = codes.UNAUTHORIZED;
+    const error = new Error(MESSAGES.NOT_LOGGED_IN);
+    error.status = CODES.UNAUTHORIZED;
     throw error;
   }
 
   if (user.banned) {
-    const error = new Error(messages.USER_BANNED);
-    error.status = codes.UNAUTHORIZED;
+    const error = new Error(MESSAGES.USER_BANNED);
+    error.status = CODES.UNAUTHORIZED;
     throw error;
   }
 
@@ -121,8 +121,8 @@ exports.requireAdminLogin = () => async (req, res, next) => {
   }
 
   if (!user.isAdmin()) {
-    const error = new Error(messages.UNAUTHORIZED);
-    error.status = codes.UNAUTHORIZED;
+    const error = new Error(MESSAGES.UNAUTHORIZED);
+    error.status = CODES.UNAUTHORIZED;
     return next(error);
   }
 

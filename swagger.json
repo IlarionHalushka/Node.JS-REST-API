@@ -53,7 +53,7 @@
         ],
         "responses": {
           "201": {
-            "description": "New user is created successfully."
+            "description": "CREATED"
           },
           "400": {
             "description": "Bad request"
@@ -86,7 +86,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Auth successful"
+            "description": "AUTH_SUCCESSFUL"
           },
           "400": {
             "description": "Bad request"

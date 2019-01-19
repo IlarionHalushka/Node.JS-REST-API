@@ -7,6 +7,7 @@ global.mongoose = require('mongoose');
 global.config = require('../server/config/enviroment');
 global.routes = require('./common/routes');
 global.testHelpers = require('./common/testHelpers');
+global.constants = require('./../server/constants');
 
 global.connection = global.mongoose.createConnection(config.mongo.uri);
 

@@ -19,7 +19,8 @@
     "config": true,
     "connection": true,
     "routes": true,
-    "testHelpers": true
+    "testHelpers": true,
+    "constants": true
   },
 
   "rules": {

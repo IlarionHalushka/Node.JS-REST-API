@@ -17,7 +17,7 @@ const params = [
     categoryData: {
       ...categoryData,
     },
-    responseMessage: 'New Category is created successfully.',
+    responseMessage: `Category_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with 1 photo',
@@ -25,7 +25,7 @@ const params = [
       ...categoryData,
       photos: [categoryData.photos[0]],
     },
-    responseMessage: 'New Category is created successfully.',
+    responseMessage: `Category_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with 0 photos',
@@ -33,7 +33,7 @@ const params = [
       ...categoryData,
       photos: [],
     },
-    responseMessage: 'New Category is created successfully.',
+    responseMessage: `Category_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with no "active" field',
@@ -41,7 +41,7 @@ const params = [
       name: categoryData.name,
       photos: categoryData.photos,
     },
-    responseMessage: 'New Category is created successfully.',
+    responseMessage: `Category_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with active false',
@@ -50,7 +50,7 @@ const params = [
       photos: categoryData.photos,
       active: false,
     },
-    responseMessage: 'New Category is created successfully.',
+    responseMessage: `Category_${constants.MESSAGES.CREATED}`,
   },
 ];
 
@@ -120,7 +120,7 @@ describe('Smoke: Category creation', () => {
       .expect(409);
 
     // check response from server
-    expect(res.body.message).to.equal('Category is already created.');
+    expect(res.body.message).to.equal('Category_ALREADY_EXISTS');
 
     // check data in DB
     const categoriesInDB = await Category.find({

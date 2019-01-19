@@ -11,7 +11,7 @@ const supplierData = {
   description: 'Bazar #8',
   photos: [photos.formats.jpeg, photos.formats.png],
 };
-const responseMessage = 'Supplier has been updated.';
+const responseMessage = 'Supplier_UPDATED';
 
 const params = [
   {
@@ -110,9 +110,7 @@ describe('Smoke: Supplier editing', () => {
   });
 
   params.forEach(param => {
-    it(`should return 200 when updating supplier ${
-      param.description
-    }`, async () => {
+    it(`should return 200 when updating supplier ${param.description}`, async () => {
       const res = await api
         .patch(`${suppliersRoute}/${supplierIdToUpdate}`)
         .set({ Authorization: authToken })
@@ -130,10 +128,7 @@ describe('Smoke: Supplier editing', () => {
       if (param.supplierDataToEdit.description === undefined) {
         param.supplierDataToEdit.description = supplierData.description;
       }
-      if (
-        param.supplierDataToEdit.name === undefined ||
-        param.supplierDataToEdit.name === ''
-      ) {
+      if (param.supplierDataToEdit.name === undefined || param.supplierDataToEdit.name === '') {
         param.supplierDataToEdit.name = supplierData.name;
       }
 
@@ -144,21 +139,11 @@ describe('Smoke: Supplier editing', () => {
 
       expect(editedSupplierInDB.length).to.equal(1);
 
-      expect(editedSupplierInDB[0].photos).to.deep.equal(
-        param.supplierDataToEdit.photos,
-      );
-      expect(editedSupplierInDB[0].description).to.equal(
-        param.supplierDataToEdit.description,
-      );
-      expect(editedSupplierInDB[0].name).to.equal(
-        param.supplierDataToEdit.name,
-      );
-      expect(editedSupplierInDB[0].createdBy).to.deep.equal(
-        currentSessionUserId,
-      );
-      expect(editedSupplierInDB[0].updatedBy).to.deep.equal(
-        currentSessionUserId,
-      );
+      expect(editedSupplierInDB[0].photos).to.deep.equal(param.supplierDataToEdit.photos);
+      expect(editedSupplierInDB[0].description).to.equal(param.supplierDataToEdit.description);
+      expect(editedSupplierInDB[0].name).to.equal(param.supplierDataToEdit.name);
+      expect(editedSupplierInDB[0].createdBy).to.deep.equal(currentSessionUserId);
+      expect(editedSupplierInDB[0].updatedBy).to.deep.equal(currentSessionUserId);
       expect(editedSupplierInDB[0].createdAt).to.be.a('date');
       expect(editedSupplierInDB[0].updatedAt).to.be.a('date');
     });

@@ -29,7 +29,7 @@ describe('Smoke: SignIn', () => {
       })
       .expect(200);
 
-    expect(res.body.message).to.equal('Auth successful');
+    expect(res.body.message).to.equal('AUTH_SUCCESSFUL');
     expect(res.body).to.haveOwnProperty('token');
     expect(res.body.token).to.be.a('string');
   });

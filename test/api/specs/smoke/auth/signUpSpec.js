@@ -26,7 +26,7 @@ describe('Smoke: Signup', () => {
       .expect(201);
 
     // check response from server
-    expect(res.body.message).to.equal('New user is created successfully.');
+    expect(res.body.message).to.equal('CREATED');
 
     // check user data in DB
     const usersInDB = await User.findOne();
@@ -45,7 +45,7 @@ describe('Smoke: Signup', () => {
       .send(userCreds)
       .expect(409);
 
-    expect(res.body.message).to.equal('Email is already registered.');
+    expect(res.body.message).to.equal('EMAIL_ALREADY_REGISTERED');
 
     // check that second user was not created wtih same email
     const usersCountInDB = await User.find().countDocuments();

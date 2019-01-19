@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { codes } from '../constants';
+import { CODES } from '../constants';
 
 export const getTokenClaim = async (token, secret) => {
   let tokenClaim;
@@ -8,7 +8,7 @@ export const getTokenClaim = async (token, secret) => {
     tokenClaim = await jwt.verify(token, secret);
   } catch (error) {
     const responseError = new Error('ERR_INVALID_TOKEN');
-    responseError.status = codes.BAD_REQUEST;
+    responseError.status = CODES.BAD_REQUEST;
 
     throw responseError;
   }
@@ -20,7 +20,7 @@ export const escapeRegexSpecialChars = stringWithRegexSpecialChars =>
   stringWithRegexSpecialChars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export const throwError = (res, error) => {
-  const { message, status = codes.INTERNAL_SERVER_ERROR, data } = error;
+  const { message, status = CODES.INTERNAL_SERVER_ERROR, data } = error;
 
   console.error(error); // es-lint-disable-line
 

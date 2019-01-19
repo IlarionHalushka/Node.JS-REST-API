@@ -3,11 +3,8 @@ import * as crudManager from './crudManager';
 
 exports.get = async (req, res) => {
   const databaseQuery = {};
-
-  if (
-    req.query.includeInactive === undefined ||
-    req.query.includeInactive === 'false'
-  ) {
+  // by default return active === true
+  if (req.query.includeInactive === undefined || req.query.includeInactive === 'false') {
     databaseQuery.active = true;
   }
 
@@ -17,8 +14,8 @@ exports.get = async (req, res) => {
 exports.show = async (req, res) => crudManager.show(req, res, Category);
 
 exports.create = async (req, res) => {
-  const allowDupicates = false;
-  return crudManager.create(req, res, Category, allowDupicates);
+  const allowDuplicates = false;
+  return crudManager.create(req, res, Category, allowDuplicates);
 };
 
 exports.delete = async (req, res) => crudManager.delete(req, res, Category, {});

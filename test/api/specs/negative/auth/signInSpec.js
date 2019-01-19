@@ -19,7 +19,7 @@ describe('Negative: Signin', () => {
         password: userCredsSignup.password,
       },
       responseCode: 401,
-      responseMessage: 'Auth failed',
+      responseMessage: 'AUTH_FAILED',
     },
     {
       testCaseDescription: 'wrong password',
@@ -28,7 +28,7 @@ describe('Negative: Signin', () => {
         password: testHelpers.basic.getUniqueString(),
       },
       responseCode: 401,
-      responseMessage: 'Auth failed',
+      responseMessage: 'AUTH_FAILED',
     },
     {
       testCaseDescription: 'empty password',

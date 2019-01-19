@@ -18,7 +18,7 @@ const params = [
     supplierData: {
       ...supplierData,
     },
-    responseMessage: 'New Supplier is created successfully.',
+    responseMessage: `Supplier_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with 1 photo',
@@ -26,7 +26,7 @@ const params = [
       ...supplierData,
       photos: [supplierData.photos[0]],
     },
-    responseMessage: 'New Supplier is created successfully.',
+    responseMessage: `Supplier_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with 0 photos',
@@ -34,7 +34,7 @@ const params = [
       ...supplierData,
       photos: [],
     },
-    responseMessage: 'New Supplier is created successfully.',
+    responseMessage: `Supplier_${constants.MESSAGES.CREATED}`,
   },
   {
     description: 'with empty description',
@@ -42,7 +42,7 @@ const params = [
       ...supplierData,
       description: '',
     },
-    responseMessage: 'New Supplier is created successfully.',
+    responseMessage: `Supplier_${constants.MESSAGES.CREATED}`,
   },
 ];
 
@@ -111,7 +111,7 @@ describe('Smoke: Supplier creation', () => {
       .expect(409);
 
     // check response from server
-    expect(res.body.message).to.equal('Supplier is already created.');
+    expect(res.body.message).to.equal('Supplier_ALREADY_EXISTS');
 
     // check data in DB
     const suppliersInDB = await Supplier.find({

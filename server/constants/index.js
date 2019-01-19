@@ -1,2 +1,2 @@
-export { default as codes } from './httpCodes';
-export { default as messages } from './messages';
+export { default as CODES } from './httpCodes';
+export { default as MESSAGES } from './messages';

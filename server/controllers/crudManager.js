@@ -1,5 +1,5 @@
 import { escapeRegexSpecialChars } from '../utils';
-import { codes } from '../constants';
+import { CODES, MESSAGES } from '../constants';
 
 exports.get = async (req, res, Model, databaseQuery) => {
   if (req.query.name) {
@@ -10,7 +10,7 @@ exports.get = async (req, res, Model, databaseQuery) => {
 
   const documents = await Model.find(databaseQuery, Model.publicFields);
 
-  return res.status(codes.SUCCESS).json({
+  return res.status(CODES.SUCCESS).json({
     data: documents,
   });
 };
@@ -21,14 +21,14 @@ exports.delete = async (req, res, Model, databaseQuery) => {
 
     const documents = await Model.deleteOne(databaseQuery);
 
-    return res.status(codes.SUCCESS).json({
+    return res.status(CODES.SUCCESS).json({
       data: documents,
       documentId: databaseQuery,
     });
   }
 
-  return res.status(codes.NOT_FOUND).json({
-    message: `${Model.modelName} was not found.`,
+  return res.status(CODES.NOT_FOUND).json({
+    message: `${Model.modelName}_${MESSAGES.NOT_FOUND}`,
   });
 };
 
@@ -37,7 +37,7 @@ exports.show = async (req, res, Model) => {
 
   const document = await Model.findOne(databaseQuery, Model.publicFields);
 
-  return res.status(codes.SUCCESS).json({
+  return res.status(CODES.SUCCESS).json({
     data: document,
   });
 };
@@ -46,8 +46,8 @@ exports.update = async (req, res, Model) => {
   const document = await Model.findById(req.params.id);
 
   if (!document) {
-    return res.status(codes.NOT_FOUND).json({
-      message: `${Model.modelName} with given id wasn't found.`,
+    return res.status(CODES.NOT_FOUND).json({
+      message: `${Model.modelName}_${MESSAGES.NOT_FOUND}`,
     });
   }
 
@@ -57,13 +57,13 @@ exports.update = async (req, res, Model) => {
 
   req.body.updatedBy = req.user._id;
 
-  const updateddocument = await Model.findByIdAndUpdate(req.params.id, {
+  const updatedDocument = await Model.findByIdAndUpdate(req.params.id, {
     $set: req.body,
   });
 
-  return res.status(codes.SUCCESS).json({
-    message: `${Model.modelName} has been updated.`,
-    data: updateddocument,
+  return res.status(CODES.SUCCESS).json({
+    message: `${Model.modelName}_${MESSAGES.UPDATED}`,
+    data: updatedDocument,
   });
 };
 
@@ -73,8 +73,8 @@ exports.create = async (req, res, Model, allowDuplicates = false) => {
     const isDocumentExists = await Model.findOne({ name: req.body.name });
 
     if (isDocumentExists) {
-      return res.status(codes.CONFLICT).json({
-        message: `${Model.modelName} is already created.`,
+      return res.status(CODES.CONFLICT).json({
+        message: `${Model.modelName}_${MESSAGES.ALREADY_EXISTS}`,
       });
     }
   }
@@ -88,8 +88,8 @@ exports.create = async (req, res, Model, allowDuplicates = false) => {
 
   await Model.create(documentToCreate);
 
-  return res.status(codes.CREATED).json({
-    message: `New ${Model.modelName} is created successfully.`,
+  return res.status(CODES.CREATED).json({
+    message: `${Model.modelName}_${MESSAGES.CREATED}`,
     data: documentToCreate,
   });
 };
