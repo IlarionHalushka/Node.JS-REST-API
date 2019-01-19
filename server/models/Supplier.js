@@ -1,24 +1,45 @@
 import mongoose from 'mongoose';
-import { BaseModel, baseModelPublicFields } from './BaseModel';
 
-const options = { discriminatorKey: 'kind' };
-
-const SupplierSchema = BaseModel.discriminator(
-  'Supplier',
-  new mongoose.Schema(
-    {
-      description: {
-        type: String,
-      },
-      photos: {
-        type: Array,
-        default: [],
-      },
+const SupplierSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    options,
-  ),
+    description: {
+      type: String,
+    },
+    photos: {
+      type: Array,
+      default: [],
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    updatedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+  },
+  {
+    timestamps: {
+      createdAt: true,
+      updatedAt: true,
+    },
+  },
 );
 
-export const publicFields = ['name', 'photos', 'description'].push(baseModelPublicFields);
+export const publicFields = [
+  'name',
+  'photos',
+  'description',
+  'createdAt',
+  'updatedAt',
+  'createdBy',
+  'updatedBy',
+];
 
-export default SupplierSchema;
+export const Supplier = mongoose.model('Supplier', SupplierSchema);

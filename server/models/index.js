@@ -10,6 +10,6 @@ export const connection = mongoose.connect(
   },
 );
 
-export { default as User } from './User';
-export { default as Category } from './Category';
-export { default as Supplier } from './Supplier';
+export { User } from './User';
+export { Category } from './Category';
+export { Supplier } from './Supplier';

@@ -1,4 +1,4 @@
-import User from '../../../server/models/User';
+import { User } from '../../../server/models';
 
 const APIHelpers = {
   login: async userRole => {
@@ -34,7 +34,7 @@ const APIHelpers = {
     const responseLogin = await api
       .post(routes.auth.login)
       .send({ email: userCreds.email, password: userCreds.password })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err)); // es-lint-disable-line
 
     // save user is session
     const userSession = {};

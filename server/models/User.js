@@ -67,4 +67,4 @@ export const publicFields = [
   'updatedAt',
 ];
 
-export default mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', UserSchema);
