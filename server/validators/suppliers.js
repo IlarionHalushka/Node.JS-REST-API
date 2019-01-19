@@ -14,5 +14,4 @@ const updateSupplierSchema = Joi.object().keys({
 });
 
 export const create = validateRequest(supplierSchema);
-
 export const update = validateRequest(updateSupplierSchema);

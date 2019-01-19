@@ -269,7 +269,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Category is deleted"
+            "description": "Category is removed"
           },
           "400": {
             "description": "Bad request"

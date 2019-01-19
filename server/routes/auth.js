@@ -9,4 +9,4 @@ router.post('/signUp', validators.auth.signUp, wrapAsyncError(authController.sig
 
 router.post('/signIn', validators.auth.signIn, wrapAsyncError(authController.signIn));
 
-module.exports = router;
+export default router;

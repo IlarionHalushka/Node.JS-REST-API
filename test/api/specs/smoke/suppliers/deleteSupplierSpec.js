@@ -51,7 +51,7 @@ describe('Smoke: Supplier deleting', () => {
       .set({ Authorization: authToken })
       .expect(200);
 
-    // check in DB that supplier with id supplierIdToDelete is deleted
+    // check in DB that supplier with id supplierIdToDelete is removed
     const suppliersInDBAfterDeleting = await Supplier.findById(supplierIdToDelete);
     expect(suppliersInDBAfterDeleting).to.be.a('null');
   });

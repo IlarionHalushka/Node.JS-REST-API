@@ -14,5 +14,4 @@ const updateCategorySchema = Joi.object().keys({
 });
 
 export const create = validateRequest(categorySchema);
-
 export const update = validateRequest(updateCategorySchema);

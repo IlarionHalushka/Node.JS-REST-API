@@ -32,5 +32,4 @@ const signInSchema = Joi.object().keys({
 });
 
 export const signUp = validateRequest(signUpSchema);
-
 export const signIn = validateRequest(signInSchema);

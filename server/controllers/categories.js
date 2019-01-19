@@ -1,7 +1,7 @@
 import { Category } from '../models';
 import * as crudManager from './crudManager';
 
-exports.get = async (req, res) => {
+export const get = async (req, res) => {
   const databaseQuery = {};
   // by default return active === true
   if (req.query.includeInactive === undefined || req.query.includeInactive === 'false') {
@@ -11,13 +11,13 @@ exports.get = async (req, res) => {
   return crudManager.get(req, res, Category, databaseQuery);
 };
 
-exports.show = async (req, res) => crudManager.show(req, res, Category);
+export const show = async (req, res) => crudManager.show(req, res, Category);
 
-exports.create = async (req, res) => {
+export const create = async (req, res) => {
   const allowDuplicates = false;
   return crudManager.create(req, res, Category, allowDuplicates);
 };
 
-exports.delete = async (req, res) => crudManager.delete(req, res, Category, {});
+export const remove = async (req, res) => crudManager.remove(req, res, Category, {});
 
-exports.update = async (req, res) => crudManager.update(req, res, Category);
+export const update = async (req, res) => crudManager.update(req, res, Category);

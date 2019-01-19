@@ -1,7 +1,7 @@
 import { escapeRegexSpecialChars } from '../utils';
 import { CODES, MESSAGES } from '../constants';
 
-exports.get = async (req, res, Model, databaseQuery) => {
+export const get = async (req, res, Model, databaseQuery) => {
   if (req.query.name) {
     escapeRegexSpecialChars(req.query.name);
 
@@ -15,7 +15,7 @@ exports.get = async (req, res, Model, databaseQuery) => {
   });
 };
 
-exports.delete = async (req, res, Model, databaseQuery) => {
+export const remove = async (req, res, Model, databaseQuery) => {
   if (req.params.id) {
     databaseQuery = { _id: req.params.id };
 
@@ -32,7 +32,7 @@ exports.delete = async (req, res, Model, databaseQuery) => {
   });
 };
 
-exports.show = async (req, res, Model) => {
+export const show = async (req, res, Model) => {
   const databaseQuery = { _id: req.params.id };
 
   const document = await Model.findOne(databaseQuery, Model.publicFields);
@@ -42,7 +42,7 @@ exports.show = async (req, res, Model) => {
   });
 };
 
-exports.update = async (req, res, Model) => {
+export const update = async (req, res, Model) => {
   const document = await Model.findById(req.params.id);
 
   if (!document) {
@@ -67,7 +67,7 @@ exports.update = async (req, res, Model) => {
   });
 };
 
-exports.create = async (req, res, Model, allowDuplicates = false) => {
+export const create = async (req, res, Model, allowDuplicates = false) => {
   // check for duplicates by 'name' field
   if (!allowDuplicates) {
     const isDocumentExists = await Model.findOne({ name: req.body.name });

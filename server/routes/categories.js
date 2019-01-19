@@ -26,7 +26,7 @@ router.patch(
 router.delete(
   '/:id',
   authController.requireAdminLogin(),
-  wrapAsyncError(categoriesController.delete),
+  wrapAsyncError(categoriesController.remove),
 );
 
-module.exports = router;
+export default router;

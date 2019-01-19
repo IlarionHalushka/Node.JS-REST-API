@@ -11,7 +11,7 @@ const categoryDataOnePhotoActive = {
   photos: [photos.formats.png],
   active: true,
 };
-const responseMessage = 'Category_UPDATED';
+const responseMessage = `Category_${constants.MESSAGES.UPDATED}`;
 
 const params = [
   {

@@ -6,7 +6,7 @@ import { User } from '../models';
 import * as utils from '../utils';
 import { CODES, MESSAGES } from '../constants';
 
-exports.signUp = async (req, res) => {
+export const signUp = async (req, res) => {
   // check for already registered email
   const isUserExists = await User.find({
     email: req.body.email,
@@ -34,7 +34,7 @@ exports.signUp = async (req, res) => {
   });
 };
 
-exports.signIn = async (req, res) => {
+export const signIn = async (req, res) => {
   // find user in DB
   const userFromDB = await User.find({ email: req.body.email })
     .exec()
@@ -98,7 +98,7 @@ const getLoggedInUser = async req => {
   return user;
 };
 
-exports.requireLogin = () => async (req, res, next) => {
+export const requireLogin = () => async (req, res, next) => {
   let user;
 
   try {
@@ -111,7 +111,7 @@ exports.requireLogin = () => async (req, res, next) => {
   return next();
 };
 
-exports.requireAdminLogin = () => async (req, res, next) => {
+export const requireAdminLogin = () => async (req, res, next) => {
   let user;
 
   try {

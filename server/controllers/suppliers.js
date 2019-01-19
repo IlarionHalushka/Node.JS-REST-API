@@ -1,13 +1,13 @@
 import { Supplier } from '../models';
 import * as crudManager from './crudManager';
 
-exports.get = async (req, res) => crudManager.get(req, res, Supplier, {});
+export const get = async (req, res) => crudManager.get(req, res, Supplier, {});
 
-exports.create = async (req, res) => {
+export const create = async (req, res) => {
   const allowDuplicates = false;
   crudManager.create(req, res, Supplier, allowDuplicates);
 };
 
-exports.delete = async (req, res) => crudManager.delete(req, res, Supplier, {});
+export const remove = async (req, res) => crudManager.remove(req, res, Supplier, {});
 
-exports.update = async (req, res) => crudManager.update(req, res, Supplier);
+export const update = async (req, res) => crudManager.update(req, res, Supplier);

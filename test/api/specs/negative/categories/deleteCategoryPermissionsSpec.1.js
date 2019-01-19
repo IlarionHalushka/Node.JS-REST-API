@@ -64,7 +64,7 @@ params.forEach(param => {
         .set({ Authorization: authToken })
         .expect(param.responseCode);
 
-      // check that the category that was attempted to be deleted is still in DB
+      // check that the category that was attempted to be removed is still in DB
       const categoriesInDBAfterDeleting = await Category.find({
         _id: categoryIdToDelete,
       });
