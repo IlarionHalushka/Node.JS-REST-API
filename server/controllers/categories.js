@@ -13,10 +13,7 @@ export const get = async (req, res) => {
 
 export const show = async (req, res) => crudManager.show(req, res, Category);
 
-export const create = async (req, res) => {
-  const allowDuplicates = false;
-  return crudManager.create(req, res, Category, allowDuplicates);
-};
+export const create = async (req, res) => crudManager.create(req, res, Category, false);
 
 export const remove = async (req, res) => crudManager.remove(req, res, Category, {});
 
