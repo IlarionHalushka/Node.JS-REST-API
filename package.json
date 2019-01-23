@@ -10,6 +10,8 @@
     "dev": "nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
     "debug": "nodemon --inspect-brk ./bin/www --exec babel-node --presets es2015,stage-2",
     "api-test": "export NODE_ENV=test && export JWT_KEY=secret && mocha --recursive ./test/api/specs/",
+    "api-test-smoke": "export NODE_ENV=test && export JWT_KEY=secret && mocha --recursive ./test/api/specs/ --grep Smoke",
+    "api-test-negative": "export NODE_ENV=test && export JWT_KEY=secret && mocha --recursive ./test/api/specs/ --grep Negative",
     "api-test-debug": "export NODE_ENV=test && export JWT_KEY=secret && mocha --recursive ./test/api/specs/ --inspect-bkg --timeout 1000000000",
     "api-test-coverage": "export NODE_ENV=test && export JWT_KEY=secret && nyc --reporter=lcov mocha --recursive ./test/api/specs/",
     "precommit": "lint-staged"
