@@ -2,11 +2,9 @@ import createError from 'http-errors';
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import rateLimit from 'express-rate-limit';
-import chalk from 'chalk';
-
+import middlewares from './middlewares';
 import swaggerDocument from '../swagger.json';
 import routes from './routes';
 
@@ -17,16 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // set up logger
-const morganMiddleware = morgan((tokens, req, res) =>
-  [
-    chalk.hex('#34ace0').bold(tokens.method(req, res)),
-    chalk.hex('#ffb142').bold(tokens.status(req, res)),
-    chalk.hex('#ff5252').bold(tokens.url(req, res)),
-    chalk.hex('#2ed573').bold(`${tokens['response-time'](req, res)}ms`),
-    chalk.hex('#f78fb3').bold(tokens.date(req, res)),
-  ].join(' '),
-);
-app.use(morganMiddleware);
+app.use(middlewares.logger);
 
 // parse request
 app.use(express.json());
