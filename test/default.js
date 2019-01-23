@@ -12,11 +12,16 @@ global.constants = require('./../server/constants');
 global.connection = global.mongoose.createConnection(config.mongo.uri);
 
 before(async () => {
-  connection.on('error', console.error.bind(console, 'connection error:'));
+  connection.on('error', console.error.bind(console, 'connection error:')); // es-lint-disable-line
 
   await connection.once('open', async () => {
     await connection.db.collection('users', async (err, collection) => {
-      await collection.find({});
+      try {
+        await collection.findOne({});
+      } catch (e) {
+        console.error(e); // es-lint-disable-line
+        throw e;
+      }
     });
   });
 });
